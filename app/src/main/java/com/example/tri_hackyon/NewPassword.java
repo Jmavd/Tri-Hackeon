@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +16,8 @@ import org.w3c.dom.Text;
 
 public class NewPassword extends AppCompatActivity {
 
-    //TextView changedEncryptionTitle;
+    TextView changedEncryptionTitle;
+    EditText enterTextPswd;
     CheckBox cqbx2;
 
     @Override
@@ -24,11 +26,21 @@ public class NewPassword extends AppCompatActivity {
         setContentView(R.layout.activity_new_password);
 
         cqbx2 = (CheckBox) findViewById(R.id.checkEncryption);
+        changedEncryptionTitle = (TextView) findViewById(R.id.textTitle);
+        enterTextPswd = (EditText) findViewById(R.id.editTextPopup);
+        // For right now, the following code is obsolete: storedPswd = ((EditText) findViewById(R.id.userPswd);
 
         cqbx2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+                if(cqbx2.isChecked()){
+                    showDialog();
+                    // Same as above: if(enterTextPswd == storedPswd){
+                    //      changedEncryptionTitle.setText("Encrypted") }
+                    changedEncryptionTitle.setText("Encrypted Password");}
+                else{
+                    changedEncryptionTitle.setText("Unencrypted Password");
+                /*Do Nothing For Now*/}
             }
         });
 
@@ -50,21 +62,6 @@ public class NewPassword extends AppCompatActivity {
 
         dialog.show();
     }
-
-    /*public void onCheckboxClicked(View view) {
-        changedEncryptionTitle = (TextView)findViewById(R.id.textTitle);
-
-        boolean checked = ((CheckBox) view).isChecked();
-
-        switch (view.getId()) {
-            case R.id.checkEncryption:
-                if(checked)
-                    changedEncryptionTitle.setText("Encrypted");
-                else
-                    changedEncryptionTitle.setText("Unencrypted");
-                break;
-        }
-    }*/
 
     private void configureSavePasswordButton(){
         Button buttonSave = (Button) findViewById(R.id.buttonSave);

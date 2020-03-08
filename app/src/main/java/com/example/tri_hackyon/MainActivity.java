@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    int temp;
     CheckBox cqbx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,10 @@ public class MainActivity extends AppCompatActivity {
         cqbx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+                if(cqbx.isChecked()){
+                    showDialog();}
+                else{
+                /*Do Nothing For Now*/}
             }
         });
     }
