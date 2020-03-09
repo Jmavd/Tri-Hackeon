@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    int temp;
+    int i = 0;
     CheckBox cqbx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +27,15 @@ public class MainActivity extends AppCompatActivity {
         cqbx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cqbx.isChecked()){
-                    showDialog();}
+                if (i==0){
+                    if(cqbx.isChecked()){
+                        firstShowDialog();}
+                    else{}}
                 else{
-                /*Do Nothing For Now*/}
+                    if(cqbx.isChecked()){
+                        showDialog();}
+                    else{
+                    /*Do Nothing For Now*/}}
             }
         });
     }
@@ -50,13 +55,33 @@ public class MainActivity extends AppCompatActivity {
 
         dialog.show();
     }
+    public void firstShowDialog(){
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        dialog.setContentView(R.layout.first_encrypted_passwords_popup);
+
+        Button btn = dialog.findViewById(R.id.buttonOneEnterPswd);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Entered!",Toast.LENGTH_SHORT).show();
+                i++;
+            }
+        });
+
+        dialog.show();
+    }
 
     private void configureNewPasswordButton(){
         Button buttonToPassword = (Button) findViewById(R.id.buttonToPassword);
         buttonToPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, NewPassword.class));
+                if(i==0){
+                    firstShowDialog();}
+                else{
+                    startActivity(new Intent(MainActivity.this, NewPassword.class));}
             }
         });
     }

@@ -33,6 +33,7 @@ public class NewPassword extends AppCompatActivity {
         cqbx2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(cqbx2.isChecked()){
                     showDialog();
                     // Same as above: if(enterTextPswd == storedPswd){
