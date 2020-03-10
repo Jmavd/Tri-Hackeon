@@ -9,11 +9,15 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     int i = 0;
+    EditText storedPswd;
+    EditText storingPswd;
+    EditText enterTextPswd;
     CheckBox cqbx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         configureNewPasswordButton();
+
+        storingPswd = (EditText) findViewById(R.id.editOneTextPopup);
+        enterTextPswd = (EditText) findViewById(R.id.editTextPopup);
 
         cqbx = (CheckBox) findViewById(R.id.checkBox);
 
@@ -49,7 +56,10 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Entered!",Toast.LENGTH_SHORT).show();
+                if(enterTextPswd == storedPswd){
+                    Toast.makeText(MainActivity.this, "Entered!",Toast.LENGTH_SHORT).show(); }
+                else{
+                    Toast.makeText(MainActivity.this, "I'm sorry, that is wrong", Toast.LENGTH_SHORT).show();}
             }
         });
 
@@ -67,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Entered!",Toast.LENGTH_SHORT).show();
                 i++;
+                storedPswd = storingPswd;
             }
         });
 
