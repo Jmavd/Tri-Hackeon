@@ -1,8 +1,10 @@
+//CLEANUP NEEDED, much code commented out, unneeded packages
 package com.example.tri_hackyon;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -16,15 +18,53 @@ import org.w3c.dom.Text;
 
 public class NewPassword extends AppCompatActivity {
 
-    TextView changedEncryptionTitle;
-    EditText enterTextPswd;
-    CheckBox cqbx2;
+    //TextView changedEncryptionTitle;
+    //EditText enterTextPswd;
+    //CheckBox cqbx2;
+
+    //SQL object, text fields and button object
+    SQLHelper myDb;
+    EditText editSite,editUser,editPass;
+    Button btnAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
+        myDb = new SQLHelper(this); //instance of new SQL DB
 
+        //setting up text fields to feed into variables
+        editSite = (EditText)findViewById(R.id.enterWebName);
+        editUser = (EditText)findViewById(R.id.enterUserName);
+        editPass = (EditText)findViewById(R.id.enterPass);
+        btnAdd = (Button)findViewById(R.id.buttonSave);
+        AddData();
+    }
+
+    //adds data in text fields to the SQL DB on click of the button
+    public void AddData() {
+        btnAdd.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        boolean isInserted = myDb.insertData(editSite.getText().toString(), //checks text boxes and passes it to SQLHelper's data inserter
+                                editUser.getText().toString(),
+                                editPass.getText().toString());
+                        if (isInserted == true)
+                            Toast.makeText(NewPassword.this, "data inserted", Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(NewPassword.this, "data not inserted", Toast.LENGTH_LONG).show();
+
+                        startActivity(new Intent(NewPassword.this, MainActivity.class)); //moves back to homescreen
+                    }
+                }
+        );
+    }
+
+}
+
+//Jonathan's depreciated code
+        /*
         cqbx2 = (CheckBox) findViewById(R.id.checkEncryption);
         changedEncryptionTitle = (TextView) findViewById(R.id.textTitle);
         enterTextPswd = (EditText) findViewById(R.id.editTextPopup);
@@ -41,7 +81,7 @@ public class NewPassword extends AppCompatActivity {
                     changedEncryptionTitle.setText("Encrypted Password");}
                 else{
                     changedEncryptionTitle.setText("Unencrypted Password");
-                /*Do Nothing For Now*/}
+                /*Do Nothing For Now}
             }
         });
 
@@ -73,4 +113,5 @@ public class NewPassword extends AppCompatActivity {
             }
         });
     }
-}
+
+         */
