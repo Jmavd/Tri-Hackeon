@@ -15,6 +15,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     public static  final String unCOL_2 = "USERNAME";
     public static  final String unCOL_3 = "PASSWORD";
     public static  final String unCOL_4 = "DOMAIN";
+    public static  final String unCOL_5 = "CRYPT"
 
     //initalizer
     public SQLHelper(@Nullable Context context) {
@@ -24,7 +25,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     //these two create/initalize the DB
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT,USERNAME TEXT,PASSWORD TEXT,DOMAIN TEXT)");
+        db.execSQL("create table " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT,USERNAME TEXT,PASSWORD TEXT,DOMAIN TEXT,CRYPT BOOLEAN)");
     }
 
     @Override

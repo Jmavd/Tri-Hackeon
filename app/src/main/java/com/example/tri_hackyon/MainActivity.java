@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     int i = 0;
 
     EditText storedPswd;
+
     CheckBox cqbx;
     SQLHelper myDb; //instance of SQLhelper class
 
@@ -27,9 +28,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         parseDB(); //sets the list on the homescreen
 
         configureNewPasswordButton();
+        emergencyButton();
 
         cqbx = (CheckBox) findViewById(R.id.checkBox);
 
@@ -63,6 +66,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void emergencyButton(){
+        Button buttonToPassword = (Button) findViewById(R.id.debug);
+        buttonToPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, NewPassword.class));}
+            }
+        );
+    }
+
     private void configureCreateEncryptedPassword(){
         startActivity(new Intent(MainActivity.this, CreateEncryptedPassword.class));
     }
@@ -76,23 +89,27 @@ public class MainActivity extends AppCompatActivity {
         Cursor res = myDb.getAllData(); //instance of SQL's cursor
 
         if (res.getCount() == 0) {              //if DB is empty
-            updateList("Nothing found");
+            updateList("Nothing found","","");
             return;
         }
         else{             //if an entry exists
             StringBuffer buffer = new StringBuffer();
             while (res.moveToNext()) { //combs through DB and adds anything to a semi-array
-                buffer.append("Username :" + res.getString(2) + "\n");
-                buffer.append("Password :" + res.getString(1) + "\n"); //made an oops in SQL helper class, quickfix
-                buffer.append("Domain :" + res.getString(3) + "\n \n");
+                String user = (res.getString(2) + "\n");
+                String pass = (res.getString(1) + "\n"); //made an oops in SQL helper class, quickfix
+                String domain = (res.getString(3) + "\n");
+                updateList(user, pass, domain);
             }
-            updateList(buffer.toString());
             }
     }
 
-    public void updateList(String message){ //actually updates the homescreen list
-        TextView textView = (TextView) findViewById(R.id.dbList);
-        textView.setText(message);
+    public void updateList(String u, String p, String d){ //actually updates the homescreen list
+        TextView ucol = (TextView) findViewById(R.id.usercol);
+        TextView pcol = (TextView) findViewById(R.id.passcol);
+        TextView dcol = (TextView) findViewById(R.id.domcol);
+        ucol.append(u);
+        pcol.append(p);
+        dcol.append(d);
 
     }
 }

@@ -19,6 +19,8 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <activity android:name="com.example.tri_hackyon.EnterEncryptedPassword" />
+        <activity android:name="com.example.tri_hackyon.CreateEncryptedPassword" />
         <activity android:name="com.example.tri_hackyon.NewPassword" />
         <activity android:name="com.example.tri_hackyon.MainActivity" >
             <intent-filter>

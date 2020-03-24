@@ -759,13 +759,14 @@ id content
 id contentPanel
 id custom
 id customPanel
-id dbList
+id debug
 id decor_content_parent
 id default_activity_button
 id dialog_button
 id dimensions
 id direct
 id disableHome
+id domcol
 id editOneTextPopup
 id editTextPopup
 id edit_query
@@ -775,6 +776,10 @@ id enterUserName
 id enterWebName
 id expand_activities_button
 id expanded_menu
+id firstPopupButtonCancel
+id firstPopupButtonCreate
+id firstPopupCreatePassword
+id firstPopupTitle
 id forever
 id gone
 id group_divider
@@ -808,7 +813,11 @@ id on
 id packed
 id parent
 id parentPanel
+id passcol
 id percent
+id popupButtonCancel
+id popupButtonEnter
+id popupEnterPassword
 id progress_circular
 id progress_horizontal
 id radio
@@ -874,6 +883,7 @@ id unchecked
 id uniform
 id up
 id useLogo
+id usercol
 id withText
 id wrap
 id wrap_content
@@ -917,6 +927,8 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_create_encrypted_password
+layout activity_enter_encrypted_password
 layout activity_main
 layout activity_new_password
 layout custom_dialog
@@ -962,6 +974,7 @@ string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string app_name
+string preference_file_key
 string search_menu_title
 string status_bar_notification_info_overflow
 style AlertDialog_AppCompat

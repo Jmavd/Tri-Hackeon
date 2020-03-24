@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Tri-Hackyon</string>
+    <string name="preference_file_key">trihackeon.PREFERENCE_FILE_KEY</string>
 </resources>
