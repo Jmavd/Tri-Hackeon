@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -17,8 +18,11 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     int i = 0;
+    public final String SHARED_PREFS = "sharedPrefs";
+    public static final String TEXT = "text";
 
-    EditText storedPswd;
+    EditText tempStoredPswd;
+    String storedPswd;
 
     CheckBox cqbx;
     SQLHelper myDb; //instance of SQLhelper class
@@ -31,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
         parseDB(); //sets the list on the homescreen
 
+        //tempStoredPswd = (EditText) findViewById(R.id.firstCreae)
+
+        //loadData();
         configureNewPasswordButton();
         emergencyButton();
 
@@ -112,4 +119,8 @@ public class MainActivity extends AppCompatActivity {
         dcol.append(d);
 
     }
+    /*public void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        storedPswd = sharedPreferences.getString(TEXT, ""); // "" at the end sets the default value to nothing
+    }*/
 }

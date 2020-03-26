@@ -15,7 +15,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     public static  final String unCOL_2 = "USERNAME";
     public static  final String unCOL_3 = "PASSWORD";
     public static  final String unCOL_4 = "DOMAIN";
-    public static  final String unCOL_5 = "CRYPT"
+    public static  final String unCOL_5 = "CRYPT";
 
     //initalizer
     public SQLHelper(@Nullable Context context) {
