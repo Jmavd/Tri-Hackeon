@@ -745,6 +745,7 @@ id buttonEnterPswd
 id buttonOneEnterPswd
 id buttonPanel
 id buttonSave
+id buttonToDelete
 id buttonToPassword
 id center_vertical
 id chains
@@ -809,6 +810,7 @@ id message
 id middle
 id multiply
 id never
+id newPwdBack
 id none
 id normal
 id notification_background
@@ -834,6 +836,7 @@ id screen
 id scrollIndicatorDown
 id scrollIndicatorUp
 id scrollView
+id scrollView2
 id search_badge
 id search_bar
 id search_button

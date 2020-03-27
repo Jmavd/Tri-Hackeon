@@ -39,6 +39,7 @@ public class NewPassword extends AppCompatActivity {
         editPass = (EditText)findViewById(R.id.enterPass);
         btnAdd = (Button)findViewById(R.id.buttonSave);
         AddData();
+        backButton();
     }
 
     //adds data in text fields to the SQL DB on click of the button
@@ -59,6 +60,15 @@ public class NewPassword extends AppCompatActivity {
                     }
                 }
         );
+    }
+    public void backButton(){
+        Button button = findViewById(R.id.newPwdBack);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(NewPassword.this, MainActivity.class));
+            }
+        });
     }
 
 }
