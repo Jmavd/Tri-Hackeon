@@ -25,7 +25,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     //these two create/initalize the DB
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT,USERNAME TEXT,PASSWORD TEXT,DOMAIN TEXT,CRYPT BOOLEAN)");
+        db.execSQL("create table " + TABLE_NAME + " (ID INTEGER PRIMARY KEY,USERNAME TEXT,PASSWORD TEXT,DOMAIN TEXT,CRYPT BOOLEAN)");
     }
 
     @Override
@@ -53,6 +53,17 @@ public class SQLHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);
         return res;
+    }
+
+    public boolean deleteData(int ID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        if (ID == 0)
+            return false;
+        else {
+            db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE ID = " + ID);
+            return true;
+        }
+
     }
 
 }

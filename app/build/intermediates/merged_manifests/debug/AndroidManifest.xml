@@ -21,6 +21,9 @@
         <activity android:name="com.example.tri_hackyon.EnterEncryptedPassword" />
         <activity android:name="com.example.tri_hackyon.CreateEncryptedPassword" />
         <activity android:name="com.example.tri_hackyon.NewPassword" />
+        <activity
+            android:name="com.example.tri_hackyon.DeletePassword"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.example.tri_hackyon.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

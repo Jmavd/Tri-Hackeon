@@ -12,6 +12,7 @@
         <activity android:name=".EnterEncryptedPassword"></activity>
         <activity android:name=".CreateEncryptedPassword" />
         <activity android:name=".NewPassword" />
+        <activity android:name=".DeletePassword" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
