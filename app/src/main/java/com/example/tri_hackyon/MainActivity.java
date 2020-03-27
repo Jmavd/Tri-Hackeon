@@ -45,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //loadData();
-        configureNewPasswordButton();
-        emergencyButton();
+        configureButtons();
         //storeVariable();
         //loadVariable();
         loadData();
@@ -71,28 +70,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void configureNewPasswordButton(){
+    private void configureButtons(){
         Button buttonToPassword = (Button) findViewById(R.id.buttonToPassword);
+        Button debugButton = (Button) findViewById(R.id.debug);
+        Button deleteButton = (Button) findViewById(R.id.buttonToDelete);
         buttonToPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(i==0){
-                    configureCreateEncryptedPassword();}
-                else{
+                if(i==0)
+                    configureCreateEncryptedPassword();
+                else
                     startActivity(new Intent(MainActivity.this, NewPassword.class));}
+        });
+        debugButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, NewPassword.class));}
+        });
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, DeletePassword.class));
             }
         });
     }
 
-    private void emergencyButton(){
-        Button buttonToPassword = (Button) findViewById(R.id.debug);
-        buttonToPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    startActivity(new Intent(MainActivity.this, DeletePassword.class));}
-            }
-        );
-    }
 
     private void configureCreateEncryptedPassword(){
         startActivity(new Intent(MainActivity.this, CreateEncryptedPassword.class));
