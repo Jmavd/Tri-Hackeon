@@ -30,7 +30,7 @@ public class EnterEncryptedPassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Will check the entered password later
-                finish();
+                startActivity(new Intent(EnterEncryptedPassword.this, MainActivity.class));
             }
         });
     }

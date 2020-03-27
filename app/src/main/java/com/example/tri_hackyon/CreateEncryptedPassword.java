@@ -17,9 +17,10 @@ public class CreateEncryptedPassword extends AppCompatActivity {
     private Button cancelButton;
     private Button createButton;
     private String storedPassword;
+    private String checkPswdString;
 
-    public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String TEXT = "text";
+    //public static final String SHARED_PREFS = "sharedPrefs";
+    //public static final String TEXT = "text";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,24 +44,30 @@ public class CreateEncryptedPassword extends AppCompatActivity {
             }
         });
         createButton = (Button) findViewById(R.id.firstPopupButtonCreate);
+        passwordCheck();
+    }
+
+    public void passwordCheck(){
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*Context context = getActivity();
                 SharedPreferences sharedPref = context.getSharedPreferences(
                         getString(R.string.preference_file_key), Context.MODE_PRIVATE);*/ //attempted implementation of shared pref
-                saveData();
-                finish();
+                checkPswdString = firstCreatePassword.getText().toString(); //WILL FIX THIS CHECK LATER
+                if (checkPswdString != null && !checkPswdString.isEmpty()){
+                    saveData();
+                    startActivity(new Intent(CreateEncryptedPassword.this, MainActivity.class));}
+                else {Toast.makeText(getApplicationContext(), "I'm sorry, please enter a password.", Toast.LENGTH_LONG).show();}
             }
         });
-
     }
 
     public void saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString(TEXT, firstCreatePassword.getText().toString());
+        editor.putString("password", firstCreatePassword.getText().toString());
 
         editor.apply();
 
@@ -68,8 +75,8 @@ public class CreateEncryptedPassword extends AppCompatActivity {
     }
 
     public void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        storedPassword = sharedPreferences.getString(TEXT, ""); // "" at the end sets the default value to nothing
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        storedPassword = sharedPreferences.getString("password", ""); // "" at the end sets the default value to nothing
     }
 
     public void updateData(){

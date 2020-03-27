@@ -31,7 +31,7 @@ public class DeletePassword extends AppCompatActivity {
         delBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DeletePassword.this, NewPassword.class));
+                startActivity(new Intent(DeletePassword.this, MainActivity.class));
             }
         });
         deleteButton.setOnClickListener(new View.OnClickListener() {
