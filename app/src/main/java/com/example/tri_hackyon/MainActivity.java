@@ -42,26 +42,33 @@ public class MainActivity extends AppCompatActivity {
 
 
         parseDB(); //sets the list on the homescreen
+        //z = 0;
 
 
         //loadData();
-        configureButtons();
-        //storeVariable();
-        //loadVariable();
+        loadVariable();
         loadData();
+        configureButtons();
 
+        Button buteen = (Button) findViewById(R.id.button);
+        buteen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, CreateEncryptedPassword.class));
+            }
+        });
         cqbx = (CheckBox) findViewById(R.id.checkBox);
 
         cqbx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (i==0){
+                if (z==0){
                     if(cqbx.isChecked()){
-                        if (storedPswd != null && !storedPswd.isEmpty()){
-                            configureCreateEncryptedPassword();}
-                        else{
-                            configureEnterEncryptedPassword();}
-                    }}
+                        storeVariable();
+                        configureCreateEncryptedPassword(); }}
+                if (z!=0){
+                    if(cqbx.isChecked()){
+                        configureEnterEncryptedPassword();}}
             }
         });
 
@@ -77,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         buttonToPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(i==0)
+                if(z==0)
                     configureCreateEncryptedPassword();
                 else
                     startActivity(new Intent(MainActivity.this, NewPassword.class));}
@@ -142,4 +149,18 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         storedPswd = sharedPreferences.getString(TEXT, ""); // "" at the end sets the default value to nothing
     }*/
+
+    public void storeVariable(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt("inti", i);
+
+        editor.apply();
+    }
+
+    public void loadVariable(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        z = sharedPreferences.getInt("inti", 0);
+    }
 }
