@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 public class CreateEncryptedPassword extends AppCompatActivity {
     public EditText firstCreatePassword;
+    CryptoHelper crypt;
+    public String sentText;
+    public String ultiText;
     private Button cancelButton;
     private Button createButton;
     private String storedPassword;
@@ -39,12 +42,11 @@ public class CreateEncryptedPassword extends AppCompatActivity {
                 overrideCheck();
             }
         });
-
         enterCreatedPassword();
     }
 
     private void overrideCheck(){
-        saveData();
+        encryptData();
         startActivity(new Intent(CreateEncryptedPassword.this, MainActivity.class));
     }
 
@@ -69,7 +71,7 @@ public class CreateEncryptedPassword extends AppCompatActivity {
                         getString(R.string.preference_file_key), Context.MODE_PRIVATE);*/ //attempted implementation of shared pref
                 checkPswdString = firstCreatePassword.getText().toString();
                 if (checkPswdString != null && !checkPswdString.isEmpty()){
-                    saveData();
+                    encryptData();
                     grabVariable();
                     y++;
                     //y=0;// This is code that, if needed, clears the variable so that it will function like new
@@ -84,7 +86,6 @@ public class CreateEncryptedPassword extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         y = sharedPreferences.getInt("inti", 0);
     }
-
     private void applyVariable(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor editor2 = sharedPreferences.edit();
@@ -94,14 +95,14 @@ public class CreateEncryptedPassword extends AppCompatActivity {
         editor2.apply();
     }
 
-    public void saveData() {
+    public void encryptData() {
+        crypt = new CryptoHelper();
+        sentText = firstCreatePassword.getText().toString();
+        ultiText = crypt.digestString(sentText);
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString("password", firstCreatePassword.getText().toString());
-
+        editor.putString("password", ultiText);
         editor.apply();
-
         Toast.makeText(this, "Password Created!", Toast.LENGTH_SHORT).show();
     }
 

@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         parseDB(); //sets the list on the homescreen
         //z = 0;
-
-
         //loadData();
         loadVariable();
         loadData();

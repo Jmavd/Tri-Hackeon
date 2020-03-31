@@ -1,6 +1,12 @@
+
+
 package com.example.tri_hackyon;
 
+
+
 import androidx.appcompat.app.AppCompatActivity;
+
+
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,11 +17,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class EnterEncryptedPassword extends AppCompatActivity {
+import java.io.UnsupportedEncodingException;
 
+
+public class EnterEncryptedPassword extends AppCompatActivity {
     public String tempStoredPassword;
     public String compStoredPassword;
     public EditText enteredPassword;
+    CryptoHelper crypt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +37,8 @@ public class EnterEncryptedPassword extends AppCompatActivity {
         enterPassword();
     }
 
+
+
     private void enterPassword(){
         Button cancelButton = (Button) findViewById(R.id.popupButtonCancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -36,23 +47,36 @@ public class EnterEncryptedPassword extends AppCompatActivity {
                 finish();
             }
         });
+
         Button enterButton = (Button) findViewById(R.id.popupButtonEnter);
 
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                compStoredPassword = enteredPassword.getText().toString();
-                if (compStoredPassword.equals(tempStoredPassword)){
+                crypt = new CryptoHelper();
+                compStoredPassword = crypt.digestString(enteredPassword.getText().toString());
+                /*if (compStoredPassword==tempStoredPassword){
                     //note, later on, upon entering the right password, NEW CODE will have to be added that will show the encrypted passwords
                     //on the main activity. This will probably be done with a temporary int that is saved and checked on the homescreen
                     startActivity(new Intent(EnterEncryptedPassword.this, MainActivity.class));}
-                else { Toast.makeText(getApplicationContext(), "I'm sorry, that password does not match.", Toast.LENGTH_LONG).show(); }
+                else { Toast.makeText(getApplicationContext(), tempStoredPassword+ "="+ compStoredPassword, Toast.LENGTH_LONG).show(); }*/
+                test();
             }
         });
+
     }
 
     private void grabStoredPassword(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         tempStoredPassword = sharedPreferences.getString("password", "");
     }
+
+    public void test(){
+        if (compStoredPassword==tempStoredPassword){
+            //note, later on, upon entering the right password, NEW CODE will have to be added that will show the encrypted passwords
+            //on the main activity. This will probably be done with a temporary int that is saved and checked on the homescreen
+            startActivity(new Intent(EnterEncryptedPassword.this, MainActivity.class));}
+        else { Toast.makeText(getApplicationContext(), tempStoredPassword+ "="+ compStoredPassword, Toast.LENGTH_LONG).show(); }
+    }
+
 }

@@ -679,6 +679,7 @@ id ALT
 id CTRL
 id FUNCTION
 id META
+id PopupTitle
 id SHIFT
 id SYM
 id accessibility_action_clickable_span
@@ -741,6 +742,8 @@ id barrier
 id beginning
 id blocking
 id bottom
+id button
+id button2
 id buttonEnterPswd
 id buttonOneEnterPswd
 id buttonPanel
