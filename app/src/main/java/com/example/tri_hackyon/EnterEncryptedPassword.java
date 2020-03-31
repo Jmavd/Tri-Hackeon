@@ -72,11 +72,11 @@ public class EnterEncryptedPassword extends AppCompatActivity {
     }
 
     public void test(){
-        if (compStoredPassword==tempStoredPassword){
+        if (compStoredPassword.equals(tempStoredPassword)){
             //note, later on, upon entering the right password, NEW CODE will have to be added that will show the encrypted passwords
             //on the main activity. This will probably be done with a temporary int that is saved and checked on the homescreen
             startActivity(new Intent(EnterEncryptedPassword.this, MainActivity.class));}
-        else { Toast.makeText(getApplicationContext(), tempStoredPassword+ "="+ compStoredPassword, Toast.LENGTH_LONG).show(); }
+        else { Toast.makeText(getApplicationContext(), "Incorrect Password", Toast.LENGTH_LONG).show(); }
     }
 
 }
