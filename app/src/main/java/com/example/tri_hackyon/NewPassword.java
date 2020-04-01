@@ -24,8 +24,9 @@ public class NewPassword extends AppCompatActivity {
 
     //SQL object, text fields and button object
     SQLHelper myDb;
-    EditText editSite,editUser,editPass;
+    EditText editSite, editUser, editPass, tmpkey;
     Button btnAdd;
+    CheckBox encCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +35,12 @@ public class NewPassword extends AppCompatActivity {
         myDb = new SQLHelper(this); //instance of new SQL DB
 
         //setting up text fields to feed into variables
-        editSite = (EditText)findViewById(R.id.enterWebName);
-        editUser = (EditText)findViewById(R.id.enterUserName);
-        editPass = (EditText)findViewById(R.id.enterPass);
-        btnAdd = (Button)findViewById(R.id.buttonSave);
+        editSite = (EditText) findViewById(R.id.enterWebName);
+        editUser = (EditText) findViewById(R.id.enterUserName);
+        editPass = (EditText) findViewById(R.id.enterPass);
+        tmpkey = (EditText) findViewById(R.id.tempKey);
+        btnAdd = (Button) findViewById(R.id.buttonSave);
+        encCheck = (CheckBox) findViewById(R.id.checkEncryption);
         AddData();
         backButton();
     }
@@ -48,20 +51,22 @@ public class NewPassword extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        boolean isInserted = myDb.insertData(editSite.getText().toString(), //checks text boxes and passes it to SQLHelper's data inserter
-                                editUser.getText().toString(),
-                                editPass.getText().toString());
-                        if (isInserted == true)
-                            Toast.makeText(NewPassword.this, "data inserted", Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(NewPassword.this, "data not inserted", Toast.LENGTH_LONG).show();
-
-                        startActivity(new Intent(NewPassword.this, MainActivity.class)); //moves back to homescreen
+                        if(encCheck.isChecked()){
+                            try {
+                                addEncrypted();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else{
+                            addUnencrypted();
+                        }
                     }
                 }
         );
     }
-    public void backButton(){
+
+    public void backButton() {
         Button button = findViewById(R.id.newPwdBack);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +76,32 @@ public class NewPassword extends AppCompatActivity {
         });
     }
 
+    public void addUnencrypted() {
+        boolean isInserted = myDb.insertData(editSite.getText().toString(), //checks text boxes and passes it to SQLHelper's data inserter
+                editUser.getText().toString(),
+                editPass.getText().toString(), false);
+        if (isInserted == true)
+            Toast.makeText(NewPassword.this, "data inserted", Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(NewPassword.this, "data not inserted", Toast.LENGTH_LONG).show();
+
+        startActivity(new Intent(NewPassword.this, MainActivity.class)); //moves back to homescreen
+    }
+
+    public void addEncrypted() throws Exception {
+        CryptoHelper crypto = new CryptoHelper();
+        String key = tmpkey.getText().toString();
+        boolean isInserted = myDb.insertData(crypto.encrypt(editSite.getText().toString(), key), //checks text boxes and passes it to SQLHelper's data inserter
+                crypto.encrypt(editUser.getText().toString(),key),
+                crypto.encrypt(editPass.getText().toString(),key),
+                true);
+        if (isInserted == true)
+            Toast.makeText(NewPassword.this, "data inserted", Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(NewPassword.this, "data not inserted", Toast.LENGTH_LONG).show();
+
+        startActivity(new Intent(NewPassword.this, MainActivity.class)); //moves back to homescreen
+    }
 }
 
 //Jonathan's depreciated code
