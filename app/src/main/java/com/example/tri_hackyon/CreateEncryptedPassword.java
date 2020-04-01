@@ -98,7 +98,7 @@ public class CreateEncryptedPassword extends AppCompatActivity {
     public void encryptData() {
         crypt = new CryptoHelper();
         sentText = firstCreatePassword.getText().toString();
-        ultiText = crypt.digestString(sentText);
+        ultiText = crypt.digestString(crypt.digestString(sentText+"Immasaltyboi"));
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("password", ultiText);

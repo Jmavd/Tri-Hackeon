@@ -41,6 +41,20 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(unCOL_2,username);
         contentValues.put(unCOL_3, password);
         contentValues.put(unCOL_4, website);
+        contentValues.put(unCOL_5, false);
+        long result = db.insert(TABLE_NAME, null, contentValues);
+        if (result == -1)
+            return false;
+        else
+            return true;
+    }
+    public boolean insertEncrypted(String website, String password, String username, String ppass){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(unCOL_2,username);
+        contentValues.put(unCOL_3, password);
+        contentValues.put(unCOL_4, website);
+        contentValues.put(unCOL_5, true);
         long result = db.insert(TABLE_NAME, null, contentValues);
         if (result == -1)
             return false;

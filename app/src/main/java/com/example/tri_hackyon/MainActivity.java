@@ -69,6 +69,16 @@ public class MainActivity extends AppCompatActivity {
                         configureEnterEncryptedPassword();}}
             }
         });
+        CryptoHelper crpyt = new CryptoHelper();
+        TextView tv = (TextView) findViewById(R.id.usercol);
+        String pot = "";
+        try {
+            pot = crpyt.decrypt(crpyt.encrypt("yoink","nada"),"nada");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        tv.setText(pot);
+
 
         //tempStoredPswd = (TextView) findViewById(R.id.textTitle);
         //tempStoredPswd.setText(storedPswd);
