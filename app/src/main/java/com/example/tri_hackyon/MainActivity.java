@@ -31,42 +31,46 @@ public class MainActivity extends AppCompatActivity {
 
     TextView tempStoredPswd;
     String storedPswd = "";
-
     CheckBox cqbx;
     SQLHelper myDb; //instance of SQLhelper class
+    String cryptoKey = "key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        parseDB(); //sets the list on the homescreen
-
-
+        try {
+            parseDBenc(cryptoKey); //sets the list on the homescreen
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //z = 0;
         //loadData();
-        configureButtons();
-        //storeVariable();
-        //loadVariable();
+        loadVariable();
         loadData();
+        configureButtons();
 
+        Button buteen = (Button) findViewById(R.id.button);
+        buteen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, CreateEncryptedPassword.class));
+            }
+        });
         cqbx = (CheckBox) findViewById(R.id.checkBox);
 
         cqbx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (i==0){
+                if (z==0){
                     if(cqbx.isChecked()){
-                        if (storedPswd != null && !storedPswd.isEmpty()){
-                            configureCreateEncryptedPassword();}
-                        else{
-                            configureEnterEncryptedPassword();}
-                    }}
+                        storeVariable();
+                        configureCreateEncryptedPassword(); }}
+                if (z!=0){
+                    if(cqbx.isChecked()){
+                        configureEnterEncryptedPassword();}}
             }
         });
-
-        //tempStoredPswd = (TextView) findViewById(R.id.textTitle);
-        //tempStoredPswd.setText(storedPswd);
     }
 
 
@@ -77,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         buttonToPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(i==0)
+                if(z==0)
                     configureCreateEncryptedPassword();
                 else
                     startActivity(new Intent(MainActivity.this, NewPassword.class));}
@@ -104,7 +108,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, EnterEncryptedPassword.class));
     }
 
-    public void parseDB(){
+
+
+    public void parseDBenc(String key) throws Exception {
+        CryptoHelper crypto = new CryptoHelper();
         myDb = new SQLHelper(this); //instance of sqlHelper
         Cursor res = myDb.getAllData(); //instance of SQL's cursor
 
@@ -115,12 +122,24 @@ public class MainActivity extends AppCompatActivity {
         else{             //if an entry exists
             StringBuffer buffer = new StringBuffer();
             while (res.moveToNext()) { //combs through DB and adds anything to a semi-array
-                String user = (res.getString(2) + "\n");
-                String pass = (res.getString(1) + "\n"); //made an oops in SQL helper class, quickfix
-                String domain = (res.getString(3) + "\n");
+                boolean encrypted = (res.getInt(4)!=0);
+                String user = (res.getString(2));
+                String pass = ((res.getString(1))); //made an oops in SQL helper class, quickfix
+                String domain = (res.getString(3));
+                if(encrypted){
+                    user = (crypto.decrypt(user,key)+"\n");
+                    pass = (crypto.decrypt(pass,key)+"\n");
+                    domain = (crypto.decrypt(domain,key)+"\n");
+                }
+                else {
+                    user = (user+"\n");
+                    pass = (pass+"\n");
+                    domain = (domain+"\n");
+                }
+                if(pass.length()<10)
                 updateList(user, pass, domain);
             }
-            }
+        }
     }
 
     public void updateList(String u, String p, String d){ //actually updates the homescreen list
@@ -142,4 +161,18 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         storedPswd = sharedPreferences.getString(TEXT, ""); // "" at the end sets the default value to nothing
     }*/
+
+    public void storeVariable(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt("inti", i);
+
+        editor.apply();
+    }
+
+    public void loadVariable(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        z = sharedPreferences.getInt("inti", 0);
+    }
 }

@@ -14,10 +14,14 @@ import android.widget.Toast;
 
 public class CreateEncryptedPassword extends AppCompatActivity {
     public EditText firstCreatePassword;
+    CryptoHelper crypt;
+    public String sentText;
+    public String ultiText;
     private Button cancelButton;
     private Button createButton;
     private String storedPassword;
     private String checkPswdString;
+    private int y;
 
     //public static final String SHARED_PREFS = "sharedPrefs";
     //public static final String TEXT = "text";
@@ -31,8 +35,19 @@ public class CreateEncryptedPassword extends AppCompatActivity {
         //storedPassword = firstPopupCreatePassword.getText().toString(); //(Temporary Storage - now deprecated)
         loadData();
         updateData();
-
+        Button overrideButton = (Button) findViewById(R.id.button2);
+        overrideButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                overrideCheck();
+            }
+        });
         enterCreatedPassword();
+    }
+
+    private void overrideCheck(){
+        encryptData();
+        startActivity(new Intent(CreateEncryptedPassword.this, MainActivity.class));
     }
 
     private void enterCreatedPassword(){
@@ -54,23 +69,40 @@ public class CreateEncryptedPassword extends AppCompatActivity {
                 /*Context context = getActivity();
                 SharedPreferences sharedPref = context.getSharedPreferences(
                         getString(R.string.preference_file_key), Context.MODE_PRIVATE);*/ //attempted implementation of shared pref
-                checkPswdString = firstCreatePassword.getText().toString(); //WILL FIX THIS CHECK LATER
+                checkPswdString = firstCreatePassword.getText().toString();
                 if (checkPswdString != null && !checkPswdString.isEmpty()){
-                    saveData();
+                    encryptData();
+                    grabVariable();
+                    y++;
+                    //y=0;// This is code that, if needed, clears the variable so that it will function like new
+                    applyVariable();
                     startActivity(new Intent(CreateEncryptedPassword.this, MainActivity.class));}
                 else {Toast.makeText(getApplicationContext(), "I'm sorry, please enter a password.", Toast.LENGTH_LONG).show();}
             }
         });
     }
 
-    public void saveData() {
+    private void grabVariable(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        y = sharedPreferences.getInt("inti", 0);
+    }
+    private void applyVariable(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        SharedPreferences.Editor editor2 = sharedPreferences.edit();
+
+        editor2.putInt("inti", y);
+
+        editor2.apply();
+    }
+
+    public void encryptData() {
+        crypt = new CryptoHelper();
+        sentText = firstCreatePassword.getText().toString();
+        ultiText = crypt.digestString(crypt.digestString(sentText+"Immasaltyboi"));
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString("password", firstCreatePassword.getText().toString());
-
+        editor.putString("password", ultiText);
         editor.apply();
-
         Toast.makeText(this, "Password Created!", Toast.LENGTH_SHORT).show();
     }
 

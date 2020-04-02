@@ -679,6 +679,7 @@ id ALT
 id CTRL
 id FUNCTION
 id META
+id PopupTitle
 id SHIFT
 id SYM
 id accessibility_action_clickable_span
@@ -741,6 +742,8 @@ id barrier
 id beginning
 id blocking
 id bottom
+id button
+id button2
 id buttonEnterPswd
 id buttonOneEnterPswd
 id buttonPanel
@@ -872,6 +875,7 @@ id tag_screen_reader_focusable
 id tag_transition_group
 id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
+id tempKey
 id text
 id text2
 id textPass
