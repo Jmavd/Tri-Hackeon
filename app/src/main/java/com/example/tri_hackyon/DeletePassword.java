@@ -1,7 +1,6 @@
 package com.example.tri_hackyon;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -16,21 +15,15 @@ public class DeletePassword extends AppCompatActivity {
 
     SQLHelper myDb;
     EditText delBox;
-    private String compStoredPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_password);
         parseDB();
-        loadCompStoredPassword();
         setButtons();
     }
 
-    private void loadCompStoredPassword(){
-        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
-        compStoredPassword = sharedPreferences.getString("enteredPassword", "");
-    }
 
     public void setButtons(){
         Button delBack = (Button) findViewById(R.id.delBack);
