@@ -2,14 +2,19 @@ package com.example.tri_hackyon;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.media.audiofx.PresetReverb;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,21 +36,21 @@ public class MainActivity extends AppCompatActivity {
 
     TextView tempStoredPswd;
     String storedPswd = "";
+    private String compStoredPassword;
+
     CheckBox cqbx;
     SQLHelper myDb; //instance of SQLhelper class
-    String cryptoKey = "key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        try {
-            parseDBenc(cryptoKey); //sets the list on the homescreen
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+
+        parseDB(); //sets the list on the homescreen
         //z = 0;
         //loadData();
+        loadCompStoredPassword();
         loadVariable();
         loadData();
         configureButtons();
@@ -71,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
                         configureEnterEncryptedPassword();}}
             }
         });
+
+        //tempStoredPswd = (TextView) findViewById(R.id.textTitle);
+        //tempStoredPswd.setText(storedPswd);
+        //tempStoredPswd.setText(compStoredPassword);
     }
 
 
@@ -99,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void loadCompStoredPassword(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        compStoredPassword = sharedPreferences.getString("enteredPassword", "");
+    }
 
     private void configureCreateEncryptedPassword(){
         startActivity(new Intent(MainActivity.this, CreateEncryptedPassword.class));
@@ -108,10 +121,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, EnterEncryptedPassword.class));
     }
 
-
-
-    public void parseDBenc(String key) throws Exception {
-        CryptoHelper crypto = new CryptoHelper();
+    public void parseDB(){
         myDb = new SQLHelper(this); //instance of sqlHelper
         Cursor res = myDb.getAllData(); //instance of SQL's cursor
 
@@ -122,24 +132,12 @@ public class MainActivity extends AppCompatActivity {
         else{             //if an entry exists
             StringBuffer buffer = new StringBuffer();
             while (res.moveToNext()) { //combs through DB and adds anything to a semi-array
-                boolean encrypted = (res.getInt(4)!=0);
-                String user = (res.getString(2));
-                String pass = ((res.getString(1))); //made an oops in SQL helper class, quickfix
-                String domain = (res.getString(3));
-                if(encrypted){
-                    user = (crypto.decrypt(user,key)+"\n");
-                    pass = (crypto.decrypt(pass,key)+"\n");
-                    domain = (crypto.decrypt(domain,key)+"\n");
-                }
-                else {
-                    user = (user+"\n");
-                    pass = (pass+"\n");
-                    domain = (domain+"\n");
-                }
-                if(pass.length()<10)
+                String user = (res.getString(2) + "\n");
+                String pass = (res.getString(1) + "\n"); //made an oops in SQL helper class, quickfix
+                String domain = (res.getString(3) + "\n");
                 updateList(user, pass, domain);
             }
-        }
+            }
     }
 
     public void updateList(String u, String p, String d){ //actually updates the homescreen list

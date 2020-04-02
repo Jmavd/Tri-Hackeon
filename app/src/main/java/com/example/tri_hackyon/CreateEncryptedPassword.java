@@ -21,6 +21,7 @@ public class CreateEncryptedPassword extends AppCompatActivity {
     private Button createButton;
     private String storedPassword;
     private String checkPswdString;
+    private String compStoredPassword;
     private int y;
 
     //public static final String SHARED_PREFS = "sharedPrefs";
@@ -31,6 +32,7 @@ public class CreateEncryptedPassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_encrypted_password);
         loadData();
+        loadCompStoredPassword();
         firstCreatePassword = (EditText) findViewById(R.id.firstPopupCreatePassword);
         //storedPassword = firstPopupCreatePassword.getText().toString(); //(Temporary Storage - now deprecated)
         loadData();
@@ -98,12 +100,17 @@ public class CreateEncryptedPassword extends AppCompatActivity {
     public void encryptData() {
         crypt = new CryptoHelper();
         sentText = firstCreatePassword.getText().toString();
-        ultiText = crypt.digestString(crypt.digestString(sentText+"Immasaltyboi"));
+        ultiText = crypt.digestString(sentText);
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("password", ultiText);
         editor.apply();
         Toast.makeText(this, "Password Created!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void loadCompStoredPassword(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        compStoredPassword = sharedPreferences.getString("enteredPassword", "");
     }
 
     public void loadData() {
