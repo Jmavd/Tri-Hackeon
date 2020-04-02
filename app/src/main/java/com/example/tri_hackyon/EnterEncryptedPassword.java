@@ -54,7 +54,7 @@ public class EnterEncryptedPassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 crypt = new CryptoHelper();
-                compStoredPassword = crypt.digestString(crypt.digestString(enteredPassword.getText().toString()+"Immasaltyboi"));//compares and salts the password
+                compStoredPassword = crypt.digestString(enteredPassword.getText().toString());
                 /*if (compStoredPassword==tempStoredPassword){
                     //note, later on, upon entering the right password, NEW CODE will have to be added that will show the encrypted passwords
                     //on the main activity. This will probably be done with a temporary int that is saved and checked on the homescreen
@@ -72,11 +72,19 @@ public class EnterEncryptedPassword extends AppCompatActivity {
     }
 
     public void test(){
+        saveCompStoredPassword();
         if (compStoredPassword.equals(tempStoredPassword)){
             //note, later on, upon entering the right password, NEW CODE will have to be added that will show the encrypted passwords
             //on the main activity. This will probably be done with a temporary int that is saved and checked on the homescreen
             startActivity(new Intent(EnterEncryptedPassword.this, MainActivity.class));}
         else { Toast.makeText(getApplicationContext(), "Incorrect Password", Toast.LENGTH_LONG).show(); }
+    }
+
+    public void saveCompStoredPassword(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        SharedPreferences.Editor editorCSP = sharedPreferences.edit();
+        editorCSP.putString("enteredPassword", compStoredPassword);
+        editorCSP.apply();
     }
 
 }

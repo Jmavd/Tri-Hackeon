@@ -35,13 +35,12 @@ public class SQLHelper extends SQLiteOpenHelper {
     }
 
     //inserts data into SQL DB, returns bool based on success
-    public boolean insertData(String website,String password, String username, boolean encrypted) {
+    public boolean insertData(String website,String password, String username) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(unCOL_2,username);
         contentValues.put(unCOL_3, password);
         contentValues.put(unCOL_4, website);
-        contentValues.put(unCOL_5, encrypted);
         long result = db.insert(TABLE_NAME, null, contentValues);
         if (result == -1)
             return false;
