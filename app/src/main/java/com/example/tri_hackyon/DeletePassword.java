@@ -15,12 +15,22 @@ public class DeletePassword extends AppCompatActivity {
 
     SQLHelper myDb;
     EditText delBox;
+    public static final String MESSAGE_DELETE = "com.example.tri_hackyon.MESSAGE";
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        password = intent.getStringExtra(MainActivity.MESSAGE_MAIN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_password);
-        parseDB();
+        parseDBU();
+        try {
+            parseDBE(password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         setButtons();
     }
 
@@ -31,7 +41,9 @@ public class DeletePassword extends AppCompatActivity {
         delBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DeletePassword.this, MainActivity.class));
+                Intent toMain = new Intent(DeletePassword.this, MainActivity.class);
+                toMain.putExtra(MESSAGE_DELETE, password);
+                startActivity(toMain);
             }
         });
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +71,55 @@ public class DeletePassword extends AppCompatActivity {
     }
 
 
+    public void parseDBU() {
+        myDb = new SQLHelper(this); //instance of sqlHelper
+        Cursor res = myDb.getUData(); //instance of SQL's cursor
+
+        if (res.getCount() == 0) {              //if DB is empty
+            updateList("Nothing found","","");
+            return;
+        }
+        else{             //if an entry exists
+            StringBuffer buffer = new StringBuffer();
+            String domain;
+            String pass;
+            String user;
+            while (res.moveToNext()) { //combs through DB and adds anything to a semi-array
+                user = (res.getString(2));
+                pass = ((res.getString(1))); //made an oops in SQL helper class, quickfix
+                domain = (res.getString(3));
+                user = (user+"\n");
+                pass = (pass+"\n");
+                domain = (domain+"\n");
+                updateList(user, pass, domain);
+            }
+        }
+    }
+
+    private void parseDBE(String key) throws Exception {
+        CryptoHelper crypto = new CryptoHelper();
+        myDb = new SQLHelper(this); //instance of sqlHelper
+        Cursor res = myDb.getEData(); //instance of SQL's cursor
+        if (res.getCount() == 0) {              //if DB is empty
+            updateList("Nothing found","","");
+            return;
+        }
+        else{             //if an entry exists
+            StringBuffer buffer = new StringBuffer();
+            String domain;
+            String pass;
+            String user;
+            while (res.moveToNext()) { //combs through DB and adds anything to a semi-array
+                user = (res.getString(1));
+                pass = (res.getString(1)); //made an oops in SQL helper class, quickfix
+                domain = (res.getString(3));
+                user = (crypto.decrypt(user,key)+"\n");
+                pass = (crypto.decrypt(pass,key)+"\n");
+                domain = (crypto.decrypt(domain,key)+"\n");
+                updateList(user, pass, domain);
+            }
+        }
+    }
     public void parseDB(){
         myDb = new SQLHelper(this); //instance of sqlHelper
         Cursor res = myDb.getUData(); //instance of SQL's cursor

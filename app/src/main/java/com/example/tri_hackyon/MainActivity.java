@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,21 +36,22 @@ public class MainActivity extends AppCompatActivity {
     SQLHelper myDb; //instance of SQLhelper class
     private String password;
     private boolean auth = false;
-    public static final String MESSAGE_TWO = "com.example.tri_hackyon.MESSAGE";
+    public static final String MESSAGE_MAIN = "com.example.tri_hackyon.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Intent intent = getIntent();
-        password = intent.getStringExtra(EnterEncryptedPassword.EXTRA_MESSAGE);
+
         CryptoHelper crypto = new CryptoHelper();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loadData();
+        Intent intent = getIntent();
+        password = grabIntent(intent);
         cqbx = (CheckBox) findViewById(R.id.checkBox);
         try {
             auth = (crypto.digestString(crypto.digestString(password+"Immasaltyboi")).equals(storedPswd));
         } catch (Exception e){}
         if(auth){
-            cqbx.setChecked(true);
+            //cqbx.setChecked(true);
             try {
                 parseDBU();
                 parseDBE(password);
@@ -72,10 +74,7 @@ public class MainActivity extends AppCompatActivity {
         buteen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent newPass = new Intent(MainActivity.this, CreateEncryptedPassword.class);
-                String pass = password;
-                newPass.putExtra(MESSAGE_TWO,pass);
-                startActivity(newPass);
+                configureCreateEncryptedPassword();
             }
         });
 
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 if (z!=0){
                     if(cqbx.isChecked()&&!auth){
                         configureEnterEncryptedPassword();}}
-                if(auth==true&&!cqbx.isChecked()){
+                /*if(auth==true&&!cqbx.isChecked()){
                     auth = false;
                     resetList();
                     try {
@@ -107,9 +106,17 @@ public class MainActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }
+                }*/
             }
         });
+    }
+
+    private String grabIntent(Intent intent){
+        String yee = "false";
+        yee=intent.getStringExtra(NewPassword.MESSAGE_NEW);
+        if(yee==null)
+            yee = intent.getStringExtra(EnterEncryptedPassword.EXTRA_MESSAGE);
+        return yee;
     }
 
 
@@ -122,8 +129,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(z==0)
                     configureCreateEncryptedPassword();
-                else
-                    startActivity(new Intent(MainActivity.this, NewPassword.class));}
+                else {
+                    Intent toAdd = new Intent(MainActivity.this, NewPassword.class);
+                    toAdd.putExtra(MESSAGE_MAIN, password);
+                    startActivity(toAdd);
+                }
+
+            }
         });
         debugButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +145,18 @@ public class MainActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, DeletePassword.class));
+                if(auth) {
+                    Intent newPass = new Intent(MainActivity.this, DeletePassword.class);
+                    newPass.putExtra(MESSAGE_MAIN, password);
+                    startActivity(newPass);
+                }
+                else if(z==0){
+                    storeVariable();
+                    configureCreateEncryptedPassword();
+                }
+                else {
+                    configureEnterEncryptedPassword();
+                }
             }
         });
     }
@@ -156,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
         dcol.setText("Domain:\n");
     }
 
-    public void parseDBU() throws Exception {
+    public void parseDBU() {
         myDb = new SQLHelper(this); //instance of sqlHelper
         Cursor res = myDb.getUData(); //instance of SQL's cursor
 

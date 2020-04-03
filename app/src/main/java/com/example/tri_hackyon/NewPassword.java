@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.security.PrivateKey;
+
 public class NewPassword extends AppCompatActivity {
 
     //TextView changedEncryptionTitle;
@@ -27,18 +29,19 @@ public class NewPassword extends AppCompatActivity {
     EditText editSite, editUser, editPass, tmpkey;
     Button btnAdd;
     CheckBox encCheck;
+    public static final String MESSAGE_NEW = "com.example.tri_hackyon.YESSAGE";
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        password = intent.getStringExtra(MainActivity.MESSAGE_MAIN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
         myDb = new SQLHelper(this); //instance of new SQL DB
-
-        //setting up text fields to feed into variables
         editSite = (EditText) findViewById(R.id.enterWebName);
         editUser = (EditText) findViewById(R.id.enterUserName);
         editPass = (EditText) findViewById(R.id.enterPass);
-        tmpkey = (EditText) findViewById(R.id.tempKey);
         btnAdd = (Button) findViewById(R.id.buttonSave);
         encCheck = (CheckBox) findViewById(R.id.checkEncryption);
         AddData();
@@ -71,7 +74,9 @@ public class NewPassword extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(NewPassword.this, MainActivity.class));
+                Intent toMain = new Intent(NewPassword.this, MainActivity.class);
+                toMain.putExtra(MESSAGE_NEW, password);
+                startActivity(toMain);
             }
         });
     }
@@ -80,7 +85,7 @@ public class NewPassword extends AppCompatActivity {
         boolean isInserted = myDb.insertData(editSite.getText().toString(), //checks text boxes and passes it to SQLHelper's data inserter
                 editUser.getText().toString(),
                 editPass.getText().toString());
-        if (isInserted == true)
+        if (isInserted)
             Toast.makeText(NewPassword.this, "data inserted", Toast.LENGTH_LONG).show();
         else
             Toast.makeText(NewPassword.this, "data not inserted", Toast.LENGTH_LONG).show();
@@ -90,11 +95,11 @@ public class NewPassword extends AppCompatActivity {
 
     public void addEncrypted() throws Exception {
         CryptoHelper crypto = new CryptoHelper();
-        String key = tmpkey.getText().toString();
+        String key = password;
         boolean isInserted = myDb.insertEncryptedData(crypto.encrypt(editSite.getText().toString(), key), //checks text boxes and passes it to SQLHelper's data inserter
                 crypto.encrypt(editUser.getText().toString(),key),
                 crypto.encrypt(editPass.getText().toString(),key));
-        if (isInserted == true)
+        if (isInserted)
             Toast.makeText(NewPassword.this, "data inserted", Toast.LENGTH_LONG).show();
         else
             Toast.makeText(NewPassword.this, "data not inserted", Toast.LENGTH_LONG).show();
