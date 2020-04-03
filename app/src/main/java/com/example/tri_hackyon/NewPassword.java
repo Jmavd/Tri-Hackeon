@@ -79,7 +79,7 @@ public class NewPassword extends AppCompatActivity {
     public void addUnencrypted() {
         boolean isInserted = myDb.insertData(editSite.getText().toString(), //checks text boxes and passes it to SQLHelper's data inserter
                 editUser.getText().toString(),
-                editPass.getText().toString(), false);
+                editPass.getText().toString());
         if (isInserted == true)
             Toast.makeText(NewPassword.this, "data inserted", Toast.LENGTH_LONG).show();
         else
@@ -91,10 +91,9 @@ public class NewPassword extends AppCompatActivity {
     public void addEncrypted() throws Exception {
         CryptoHelper crypto = new CryptoHelper();
         String key = tmpkey.getText().toString();
-        boolean isInserted = myDb.insertData(crypto.encrypt(editSite.getText().toString(), key), //checks text boxes and passes it to SQLHelper's data inserter
+        boolean isInserted = myDb.insertEncryptedData(crypto.encrypt(editSite.getText().toString(), key), //checks text boxes and passes it to SQLHelper's data inserter
                 crypto.encrypt(editUser.getText().toString(),key),
-                crypto.encrypt(editPass.getText().toString(),key),
-                true);
+                crypto.encrypt(editPass.getText().toString(),key));
         if (isInserted == true)
             Toast.makeText(NewPassword.this, "data inserted", Toast.LENGTH_LONG).show();
         else
@@ -103,56 +102,3 @@ public class NewPassword extends AppCompatActivity {
         startActivity(new Intent(NewPassword.this, MainActivity.class)); //moves back to homescreen
     }
 }
-
-//Jonathan's depreciated code
-        /*
-        cqbx2 = (CheckBox) findViewById(R.id.checkEncryption);
-        changedEncryptionTitle = (TextView) findViewById(R.id.textTitle);
-        enterTextPswd = (EditText) findViewById(R.id.editTextPopup);
-        // For right now, the following code is obsolete: storedPswd = ((EditText) findViewById(R.id.userPswd);
-
-        cqbx2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(cqbx2.isChecked()){
-                    showDialog();
-                    // Same as above: if(enterTextPswd == storedPswd){
-                    //      changedEncryptionTitle.setText("Encrypted") }
-                    changedEncryptionTitle.setText("Encrypted Password");}
-                else{
-                    changedEncryptionTitle.setText("Unencrypted Password");
-                /*Do Nothing For Now}
-            }
-        });
-
-        configureSavePasswordButton();
-    }
-    public void showDialog(){
-        Dialog dialog = new Dialog(NewPassword.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        dialog.setContentView(R.layout.encrypted_passwords_popup);
-
-        Button btn = dialog.findViewById(R.id.buttonEnterPswd);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(NewPassword.this, "Entered!",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        dialog.show();
-    }
-
-    private void configureSavePasswordButton(){
-        Button buttonSave = (Button) findViewById(R.id.buttonSave);
-        buttonSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
-
-         */

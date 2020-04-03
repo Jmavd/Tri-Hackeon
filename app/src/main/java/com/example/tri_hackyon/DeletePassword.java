@@ -61,7 +61,7 @@ public class DeletePassword extends AppCompatActivity {
 
     public void parseDB(){
         myDb = new SQLHelper(this); //instance of sqlHelper
-        Cursor res = myDb.getAllData(); //instance of SQL's cursor
+        Cursor res = myDb.getUData(); //instance of SQL's cursor
 
         if (res.getCount() == 0) {              //if DB is empty
             updateList("Nothing found","","");

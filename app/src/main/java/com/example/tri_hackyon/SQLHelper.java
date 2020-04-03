@@ -11,11 +11,11 @@ public class SQLHelper extends SQLiteOpenHelper {
     //defining constants
     public static  final String DATABASE_NAME = "Passwords.db";
     public static  final String TABLE_NAME = "unencrypted";
+    public static  final String TABLE2_NAME = "encrypted";
     public static  final String unCOL_1 = "ID";
     public static  final String unCOL_2 = "USERNAME";
     public static  final String unCOL_3 = "PASSWORD";
     public static  final String unCOL_4 = "DOMAIN";
-    public static  final String unCOL_5 = "CRYPT";
 
     //initalizer
     public SQLHelper(@Nullable Context context) {
@@ -25,24 +25,37 @@ public class SQLHelper extends SQLiteOpenHelper {
     //these two create/initalize the DB
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + " (ID INTEGER PRIMARY KEY,USERNAME TEXT,PASSWORD TEXT,DOMAIN TEXT,CRYPT BOOLEAN)");
+        db.execSQL("create table " + TABLE_NAME + " (ID INTEGER PRIMARY KEY,USERNAME TEXT,PASSWORD TEXT,DOMAIN TEXT)");
+        db.execSQL("create table " + TABLE2_NAME + " (ID INTEGER PRIMARY KEY,USERNAME TEXT,PASSWORD TEXT,DOMAIN TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE2_NAME);
         onCreate(db);
     }
 
     //inserts data into SQL DB, returns bool based on success
-    public boolean insertData(String website,String password, String username, boolean encrypted) {
+    public boolean insertData(String website,String password, String username) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(unCOL_2,username);
         contentValues.put(unCOL_3, password);
         contentValues.put(unCOL_4, website);
-        contentValues.put(unCOL_5, encrypted);
         long result = db.insert(TABLE_NAME, null, contentValues);
+        if (result == -1)
+            return false;
+        else
+            return true;
+    }
+    public boolean insertEncryptedData(String website,String password, String username) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(unCOL_2,username);
+        contentValues.put(unCOL_3, password);
+        contentValues.put(unCOL_4, website);
+        long result = db.insert(TABLE2_NAME, null, contentValues);
         if (result == -1)
             return false;
         else
@@ -50,9 +63,15 @@ public class SQLHelper extends SQLiteOpenHelper {
     }
 
     //selects all in DB, sends to the list
-    public Cursor getAllData(){
+    public Cursor getUData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);
+        return res;
+    }
+
+    public Cursor getEData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+TABLE2_NAME,null);
         return res;
     }
 
@@ -65,6 +84,10 @@ public class SQLHelper extends SQLiteOpenHelper {
             return true;
         }
 
+    }
+    public void DeleteDB(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME );
     }
 
 }

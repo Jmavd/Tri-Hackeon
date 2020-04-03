@@ -24,6 +24,7 @@ public class EnterEncryptedPassword extends AppCompatActivity {
     public String tempStoredPassword;
     public String compStoredPassword;
     public EditText enteredPassword;
+    public static final String EXTRA_MESSAGE = "com.example.tri_hackyon.MESSAGE";
     CryptoHelper crypt;
 
     @Override
@@ -32,8 +33,6 @@ public class EnterEncryptedPassword extends AppCompatActivity {
         setContentView(R.layout.activity_enter_encrypted_password);
         enteredPassword = (EditText) findViewById(R.id.popupEnterPassword);
         grabStoredPassword();
-        //TextView temp = (TextView) findViewById(R.id.PopupTitle);
-        //temp.setText(tempStoredPassword); Just another quick check
         enterPassword();
     }
 
@@ -65,17 +64,17 @@ public class EnterEncryptedPassword extends AppCompatActivity {
         });
 
     }
-
     private void grabStoredPassword(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         tempStoredPassword = sharedPreferences.getString("password", "");
     }
 
     public void test(){
-        if (compStoredPassword.equals(tempStoredPassword)){
-            //note, later on, upon entering the right password, NEW CODE will have to be added that will show the encrypted passwords
-            //on the main activity. This will probably be done with a temporary int that is saved and checked on the homescreen
-            startActivity(new Intent(EnterEncryptedPassword.this, MainActivity.class));}
+        if (compStoredPassword.equals(tempStoredPassword)) {
+            Intent toMain = new Intent(this, MainActivity.class);
+            toMain.putExtra(EXTRA_MESSAGE, enteredPassword.getText().toString());
+            startActivity(toMain);
+        }
         else { Toast.makeText(getApplicationContext(), "Incorrect Password", Toast.LENGTH_LONG).show(); }
     }
 

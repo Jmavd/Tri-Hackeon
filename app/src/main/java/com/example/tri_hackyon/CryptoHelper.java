@@ -115,4 +115,8 @@ class CryptoHelper {
         }
         return hash;
     }
+
+    public String dualDigest(String plaintext){
+        return digestString(digestString(plaintext));
+    }
 }

@@ -30,45 +30,84 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     TextView tempStoredPswd;
-    String storedPswd = "";
+    String storedPswd = "ain't null";
     CheckBox cqbx;
     SQLHelper myDb; //instance of SQLhelper class
-    String cryptoKey = "key";
-
+    private String password;
+    private boolean auth = false;
+    public static final String MESSAGE_TWO = "com.example.tri_hackyon.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        password = intent.getStringExtra(EnterEncryptedPassword.EXTRA_MESSAGE);
+        CryptoHelper crypto = new CryptoHelper();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        try {
-            parseDBenc(cryptoKey); //sets the list on the homescreen
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //z = 0;
-        //loadData();
-        loadVariable();
         loadData();
+        cqbx = (CheckBox) findViewById(R.id.checkBox);
+        try {
+            auth = (crypto.digestString(crypto.digestString(password+"Immasaltyboi")).equals(storedPswd));
+        } catch (Exception e){}
+        if(auth){
+            cqbx.setChecked(true);
+            try {
+                parseDBU();
+                parseDBE(password);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            try {
+                parseDBU();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        loadVariable();
         configureButtons();
 
         Button buteen = (Button) findViewById(R.id.button);
         buteen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CreateEncryptedPassword.class));
+                Intent newPass = new Intent(MainActivity.this, CreateEncryptedPassword.class);
+                String pass = password;
+                newPass.putExtra(MESSAGE_TWO,pass);
+                startActivity(newPass);
             }
         });
-        cqbx = (CheckBox) findViewById(R.id.checkBox);
+
 
         cqbx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (z==0){
-                    if(cqbx.isChecked()){
+                    if(cqbx.isChecked()&&!auth){
                         storeVariable();
                         configureCreateEncryptedPassword(); }}
+                    if(auth==true&&!cqbx.isChecked()){
+                        auth = false;
+                        resetList();
+                        try {
+                            parseDBU();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                 if (z!=0){
-                    if(cqbx.isChecked()){
+                    if(cqbx.isChecked()&&!auth){
                         configureEnterEncryptedPassword();}}
+                if(auth==true&&!cqbx.isChecked()){
+                    auth = false;
+                    resetList();
+                    try {
+                        parseDBU();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }
@@ -108,12 +147,18 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, EnterEncryptedPassword.class));
     }
 
+    public void resetList(){
+        TextView ucol = (TextView) findViewById(R.id.usercol);
+        TextView pcol = (TextView) findViewById(R.id.passcol);
+        TextView dcol = (TextView) findViewById(R.id.domcol);
+        ucol.setText("Username:\n");
+        pcol.setText("Password:\n");
+        dcol.setText("Domain:\n");
+    }
 
-
-    public void parseDBenc(String key) throws Exception {
-        CryptoHelper crypto = new CryptoHelper();
+    public void parseDBU() throws Exception {
         myDb = new SQLHelper(this); //instance of sqlHelper
-        Cursor res = myDb.getAllData(); //instance of SQL's cursor
+        Cursor res = myDb.getUData(); //instance of SQL's cursor
 
         if (res.getCount() == 0) {              //if DB is empty
             updateList("Nothing found","","");
@@ -121,26 +166,46 @@ public class MainActivity extends AppCompatActivity {
         }
         else{             //if an entry exists
             StringBuffer buffer = new StringBuffer();
+            String domain;
+            String pass;
+            String user;
             while (res.moveToNext()) { //combs through DB and adds anything to a semi-array
-                boolean encrypted = (res.getInt(4)!=0);
-                String user = (res.getString(2));
-                String pass = ((res.getString(1))); //made an oops in SQL helper class, quickfix
-                String domain = (res.getString(3));
-                if(encrypted){
-                    user = (crypto.decrypt(user,key)+"\n");
-                    pass = (crypto.decrypt(pass,key)+"\n");
-                    domain = (crypto.decrypt(domain,key)+"\n");
-                }
-                else {
-                    user = (user+"\n");
-                    pass = (pass+"\n");
-                    domain = (domain+"\n");
-                }
-                if(pass.length()<10)
+                user = (res.getString(2));
+                pass = ((res.getString(1))); //made an oops in SQL helper class, quickfix
+                domain = (res.getString(3));
+                user = (user+"\n");
+                pass = (pass+"\n");
+                domain = (domain+"\n");
                 updateList(user, pass, domain);
             }
         }
     }
+
+    public void parseDBE(String key) throws Exception {
+        CryptoHelper crypto = new CryptoHelper();
+        myDb = new SQLHelper(this); //instance of sqlHelper
+        Cursor res = myDb.getEData(); //instance of SQL's cursor
+        if (res.getCount() == 0) {              //if DB is empty
+            updateList("Nothing found","","");
+            return;
+        }
+        else{             //if an entry exists
+            StringBuffer buffer = new StringBuffer();
+            String domain;
+            String pass;
+            String user;
+            while (res.moveToNext()) { //combs through DB and adds anything to a semi-array
+                user = (res.getString(2));
+                pass = ((res.getString(1))); //made an oops in SQL helper class, quickfix
+                domain = (res.getString(3));
+                user = (crypto.decrypt(user,key)+"\n");
+                pass = (crypto.decrypt(pass,key)+"\n");
+                domain = (crypto.decrypt(domain,key)+"\n");
+                updateList(user, pass, domain);
+            }
+        }
+    }
+
 
     public void updateList(String u, String p, String d){ //actually updates the homescreen list
         TextView ucol = (TextView) findViewById(R.id.usercol);
