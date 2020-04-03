@@ -15,21 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     int i = 0;
     int z = 0;
-    //public final String SHARED_PREFS = "sharedPrefs";
-    //public static final String TEXT = "text";
-    /*public static void setDefaults(String key, String value, Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(key, value);
-        editor.apply();
-    }
 
-    public static String getDefaults(String key, Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString(key, null);
-    }*/
-
-    TextView tempStoredPswd;
     String storedPswd = "";
     CheckBox cqbx;
     SQLHelper myDb; //instance of SQLhelper class
@@ -44,9 +30,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //z = 0;
-        //loadData();
         loadVariable();
+        if (z == 0){
+            configureCreateEncryptedPassword();
+        }
         loadData();
         configureButtons();
 
@@ -157,10 +144,7 @@ public class MainActivity extends AppCompatActivity {
         storedPswd = sharedPreferences.getString("password", "");
 
     }
-    /*public void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        storedPswd = sharedPreferences.getString(TEXT, ""); // "" at the end sets the default value to nothing
-    }*/
+
 
     public void storeVariable(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
