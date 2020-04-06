@@ -763,7 +763,6 @@ id content
 id contentPanel
 id custom
 id customPanel
-id debug
 id decor_content_parent
 id default_activity_button
 id delBack
@@ -851,6 +850,15 @@ id search_plate
 id search_src_text
 id search_voice_btn
 id select_dialog_listview
+id sendBack
+id sendDomCol
+id sendError
+id sendIDCol
+id sendScrollView
+id sendSend
+id sendTextBox
+id sendTitle
+id sendUserCol
 id shortcut
 id showCustom
 id showHome
@@ -875,7 +883,6 @@ id tag_screen_reader_focusable
 id tag_transition_group
 id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
-id tempKey
 id text
 id text2
 id textPass
@@ -890,6 +897,7 @@ id titleDividerNoCustom
 id titleEnterPswd
 id titleOneEnterPswd
 id title_template
+id toSend
 id top
 id topPanel
 id unchecked
@@ -946,6 +954,7 @@ layout activity_delete_password
 layout activity_enter_encrypted_password
 layout activity_main
 layout activity_new_password
+layout activity_send_password
 layout custom_dialog
 layout encrypted_passwords_popup
 layout first_encrypted_passwords_popup
@@ -1388,3 +1397,5 @@ styleable Toolbar android_gravity android_minHeight buttonGravity collapseConten
 styleable View android_theme android_focusable paddingEnd paddingStart theme
 styleable ViewBackgroundHelper android_background backgroundTint backgroundTintMode
 styleable ViewStubCompat android_id android_layout android_inflatedId
+xml accessory_filter
+xml device_filter

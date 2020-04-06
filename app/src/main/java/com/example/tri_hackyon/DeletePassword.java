@@ -1,6 +1,7 @@
 package com.example.tri_hackyon;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +25,7 @@ public class DeletePassword extends AppCompatActivity {
         password = intent.getStringExtra(MainActivity.MESSAGE_MAIN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_password);
+        setA();
         parseDBU();
         try {
             parseDBE(password);
@@ -34,6 +36,14 @@ public class DeletePassword extends AppCompatActivity {
         setButtons();
     }
 
+    private void setA(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putInt("inta", 2);
+        edit.apply();
+    }
+
+
 
     public void setButtons(){
         Button delBack = (Button) findViewById(R.id.delBack);
@@ -41,7 +51,7 @@ public class DeletePassword extends AppCompatActivity {
         delBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                exit();
             }
         });
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -65,11 +75,17 @@ public class DeletePassword extends AppCompatActivity {
         }
         myDb.deleteData(ID);
         Toast.makeText(DeletePassword.this, "Entry Deleted", Toast.LENGTH_LONG).show();
-        Intent toMain = new Intent(DeletePassword.this, MainActivity.class);
-        toMain.putExtra(MESSAGE_DELETE, password);
-        startActivity(toMain);
+        exit();
     }
 
+    private void exit(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putInt("inta", 2);
+        Intent toMain = new Intent(DeletePassword.this, MainActivity.class);
+        toMain.putExtra(MESSAGE_DELETE, password);
+        startActivity(toMain);//}
+    }
 
     public void parseDBU() {
         myDb = new SQLHelper(this); //instance of sqlHelper
@@ -110,7 +126,7 @@ public class DeletePassword extends AppCompatActivity {
             String pass;
             String user;
             while (res.moveToNext()) { //combs through DB and adds anything to a semi-array
-                user = (res.getString(1));
+                user = (res.getString(2));
                 pass = (res.getString(1)); //made an oops in SQL helper class, quickfix
                 domain = (res.getString(3));
                 user = (crypto.decrypt(user,key)+"\n");

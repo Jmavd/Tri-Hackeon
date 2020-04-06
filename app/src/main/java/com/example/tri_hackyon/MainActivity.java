@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,15 +35,14 @@ public class MainActivity extends AppCompatActivity {
     TextView tempStoredPswd;
     String storedPswd = "ain't null";
     CheckBox cqbx;
-    private int a = 0;
-    private int b = 0;
+    private int a;
+    private int b;
     SQLHelper myDb; //instance of SQLhelper class
     private String password = "";
     private boolean auth = false;
     public static final String MESSAGE_MAIN = "com.example.tri_hackyon.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         CryptoHelper crypto = new CryptoHelper();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         //applyA(); //TEST CODE - KEEP
         loadData();
         Intent intent = getIntent();
-        if (b==0){
+        if (b==4){
             password = intent.getStringExtra(EnterEncryptedPassword.EXTRA_MESSAGE);
             a=0;
             applyA();}
@@ -62,12 +63,23 @@ public class MainActivity extends AppCompatActivity {
             password = intent.getStringExtra(DeletePassword.MESSAGE_DELETE);
             a=0;
             applyA();}
+        else if (b == 3){
+            password = intent.getStringExtra(SendPassword.MESSAGE_SEND);
+            a=0;
+        }
+
         cqbx = (CheckBox) findViewById(R.id.checkBox);
         try {
             auth = (crypto.digestString(crypto.digestString(password+"Immasaltyboi")).equals(storedPswd));
         } catch (Exception e){}
         if(auth){
-            //cqbx.setChecked(true);
+            Button buttonToPassword = (Button) findViewById(R.id.buttonToPassword);
+            Button deleteButton = (Button) findViewById(R.id.buttonToDelete);
+            Button sendButton = (Button) findViewById(R.id.toSend);
+            buttonToPassword.setEnabled(true);
+            deleteButton.setEnabled(true);
+            sendButton.setEnabled(true);
+            cqbx.setChecked(true);
             try {
                 parseDBU();
                 parseDBE(password);
@@ -94,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         cqbx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +115,12 @@ public class MainActivity extends AppCompatActivity {
                         configureCreateEncryptedPassword(); }}
                     if(auth==true&&!cqbx.isChecked()){
                         auth = false;
+                        Button buttonToPassword = (Button) findViewById(R.id.buttonToPassword);
+                        Button deleteButton = (Button) findViewById(R.id.buttonToDelete);
+                        Button sendButton = (Button) findViewById(R.id.toSend);
+                        buttonToPassword.setEnabled(false);
+                        deleteButton.setEnabled(false);
+                        sendButton.setEnabled(false);
                         resetList();
                         try {
                             parseDBU();
@@ -114,81 +131,45 @@ public class MainActivity extends AppCompatActivity {
                 if (z!=0){
                     if(cqbx.isChecked()&&!auth){
                         configureEnterEncryptedPassword();}}
-                /*if(auth==true&&!cqbx.isChecked()){
-                    auth = false;
-                    resetList();
-                    try {
-                        parseDBU();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }*/
             }
         });
-
-        //tempStoredPswd = (TextView) findViewById(R.id.textTitle);
-        //tempStoredPswd.setText(password); // -- simple check for whether or not the password is being passed correctly
     }
 
     private void loadA(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
-        //b=0;
         b = sharedPreferences.getInt("inta", 0);
-    }
-
-    private String grabIntent(Intent intent){
-        String yee = "false";
-        yee=intent.getStringExtra(NewPassword.MESSAGE_NEW);
-        if(yee==null)
-            yee = intent.getStringExtra(EnterEncryptedPassword.EXTRA_MESSAGE);
-        return yee;
     }
 
 
     private void configureButtons(){
         Button buttonToPassword = (Button) findViewById(R.id.buttonToPassword);
-        Button debugButton = (Button) findViewById(R.id.debug);
         Button deleteButton = (Button) findViewById(R.id.buttonToDelete);
+        Button sendButton = (Button) findViewById(R.id.toSend);
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toAdd = new Intent(MainActivity.this, SendPassword.class);
+                toAdd.putExtra(MESSAGE_MAIN, password);
+                startActivity(toAdd);
+            }
+        }
+        );
+
         buttonToPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(auth) {
-                    a = 1;
-                    applyA();
                     Intent toAdd = new Intent(MainActivity.this, NewPassword.class);
                     toAdd.putExtra(MESSAGE_MAIN, password);
                     startActivity(toAdd);
-                }
-                else if(z==0)
-                    configureCreateEncryptedPassword();
-                else {
-                    configureEnterEncryptedPassword();
-                }
-
             }
-        });
-        debugButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    startActivity(new Intent(MainActivity.this, NewPassword.class));}
         });
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(auth) {
-                    a=2;
-                    applyA();
                     Intent newPass = new Intent(MainActivity.this, DeletePassword.class);
                     newPass.putExtra(MESSAGE_MAIN, password);
                     startActivity(newPass);
-                }
-                else if(z==0){
-                    storeVariable();
-                    configureCreateEncryptedPassword();
-                }
-                else {
-                    configureEnterEncryptedPassword();
-                }
             }
         });
     }
@@ -283,10 +264,6 @@ public class MainActivity extends AppCompatActivity {
         storedPswd = sharedPreferences.getString("password", "");
 
     }
-    /*public void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        storedPswd = sharedPreferences.getString(TEXT, ""); // "" at the end sets the default value to nothing
-    }*/
 
     public void storeVariable(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);

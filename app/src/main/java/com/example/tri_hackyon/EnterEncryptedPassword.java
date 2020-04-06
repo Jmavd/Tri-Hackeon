@@ -31,9 +31,17 @@ public class EnterEncryptedPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_encrypted_password);
+        setA();
         enteredPassword = (EditText) findViewById(R.id.popupEnterPassword);
         grabStoredPassword();
         enterPassword();
+    }
+
+    private void setA(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putInt("inta", 4);
+        edit.apply();
     }
 
 
@@ -54,11 +62,10 @@ public class EnterEncryptedPassword extends AppCompatActivity {
             public void onClick(View v) {
                 crypt = new CryptoHelper();
                 compStoredPassword = crypt.digestString(crypt.digestString(enteredPassword.getText().toString()+"Immasaltyboi"));//compares and salts the password
-                /*if (compStoredPassword==tempStoredPassword){
-                    //note, later on, upon entering the right password, NEW CODE will have to be added that will show the encrypted passwords
-                    //on the main activity. This will probably be done with a temporary int that is saved and checked on the homescreen
-                    startActivity(new Intent(EnterEncryptedPassword.this, MainActivity.class));}
-                else { Toast.makeText(getApplicationContext(), tempStoredPassword+ "="+ compStoredPassword, Toast.LENGTH_LONG).show(); }*/
+                SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+                SharedPreferences.Editor edit = sharedPreferences.edit();
+                edit.putInt("inta", 4);
+                edit.apply();
                 test();
             }
         });
@@ -69,11 +76,15 @@ public class EnterEncryptedPassword extends AppCompatActivity {
         tempStoredPassword = sharedPreferences.getString("password", "");
     }
 
-    public void test(){
+    public void exit(){
+        Intent toMain = new Intent(EnterEncryptedPassword.this, MainActivity.class);
+        toMain.putExtra(EXTRA_MESSAGE, enteredPassword.getText().toString());
+        startActivity(toMain);
+    }
+
+    private void test(){
         if (compStoredPassword.equals(tempStoredPassword)) {
-            Intent toMain = new Intent(this, MainActivity.class);
-            toMain.putExtra(EXTRA_MESSAGE, enteredPassword.getText().toString());
-            startActivity(toMain);
+            exit();
         }
         else { Toast.makeText(getApplicationContext(), "Incorrect Password", Toast.LENGTH_LONG).show(); }
     }

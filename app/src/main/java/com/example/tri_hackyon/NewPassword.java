@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -37,6 +38,7 @@ public class NewPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
+        setA();
         Intent intent = getIntent();
         password = intent.getStringExtra(MainActivity.MESSAGE_MAIN);
         myDb = new SQLHelper(this); //instance of new SQL DB
@@ -60,24 +62,35 @@ public class NewPassword extends AppCompatActivity {
                         if(encCheck.isChecked()){
                             try {
                                 addEncrypted();
-                                Intent toMain = new Intent(NewPassword.this, MainActivity.class);
-                                toMain.putExtra(MESSAGE_NEW, password);
-                                startActivity(toMain);
+                               exit();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
                         else{
-                            //if (c == 0){
-                                addUnencrypted();//}
-                            //else {
-                                Intent toMain = new Intent(NewPassword.this, MainActivity.class);
-                                toMain.putExtra(MESSAGE_NEW, password);
-                                startActivity(toMain);//}
+                            addUnencrypted();
+                            exit();
                         }
                     }
                 }
         );
+    }
+
+    private void setA(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putInt("inta", 1);
+        edit.apply();
+    }
+
+
+    private void exit(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putInt("inta", 1);
+        Intent toMain = new Intent(NewPassword.this, MainActivity.class);
+        toMain.putExtra(MESSAGE_NEW, password);
+        startActivity(toMain);//}
     }
 
     public void backButton() {
@@ -85,7 +98,7 @@ public class NewPassword extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                exit();
             }
         });
     }
@@ -111,7 +124,5 @@ public class NewPassword extends AppCompatActivity {
             Toast.makeText(NewPassword.this, "data inserted", Toast.LENGTH_LONG).show();
         else
             Toast.makeText(NewPassword.this, "data not inserted", Toast.LENGTH_LONG).show();
-
-        startActivity(new Intent(NewPassword.this, MainActivity.class)); //moves back to homescreen
     }
 }
