@@ -50,12 +50,18 @@ public class MainActivity extends AppCompatActivity {
         //applyA(); //TEST CODE - KEEP
         loadData();
         Intent intent = getIntent();
-        if (b==0)
+        if (b==0){
             password = intent.getStringExtra(EnterEncryptedPassword.EXTRA_MESSAGE);
-        else if (b==1)
+            a=0;
+            applyA();}
+        else if (b==1){
             password = intent.getStringExtra(NewPassword.MESSAGE_NEW);
-        else if (b==2)
+            a=0;
+            applyA();}
+        else if (b==2){
             password = intent.getStringExtra(DeletePassword.MESSAGE_DELETE);
+            a=0;
+            applyA();}
         cqbx = (CheckBox) findViewById(R.id.checkBox);
         try {
             auth = (crypto.digestString(crypto.digestString(password+"Immasaltyboi")).equals(storedPswd));
