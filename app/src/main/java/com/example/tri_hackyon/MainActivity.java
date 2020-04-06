@@ -33,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
     TextView tempStoredPswd;
     String storedPswd = "ain't null";
     CheckBox cqbx;
+    private int a = 0;
+    private int b = 0;
     SQLHelper myDb; //instance of SQLhelper class
-    private String password;
+    private String password = "";
     private boolean auth = false;
     public static final String MESSAGE_MAIN = "com.example.tri_hackyon.MESSAGE";
     @Override
@@ -43,9 +45,17 @@ public class MainActivity extends AppCompatActivity {
         CryptoHelper crypto = new CryptoHelper();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loadA();
+        //b=0;
+        //applyA(); //TEST CODE - KEEP
         loadData();
         Intent intent = getIntent();
-        password = grabIntent(intent);
+        if (b==0)
+            password = intent.getStringExtra(EnterEncryptedPassword.EXTRA_MESSAGE);
+        else if (b==1)
+            password = intent.getStringExtra(NewPassword.MESSAGE_NEW);
+        else if (b==2)
+            password = intent.getStringExtra(DeletePassword.MESSAGE_DELETE);
         cqbx = (CheckBox) findViewById(R.id.checkBox);
         try {
             auth = (crypto.digestString(crypto.digestString(password+"Immasaltyboi")).equals(storedPswd));
@@ -109,6 +119,15 @@ public class MainActivity extends AppCompatActivity {
                 }*/
             }
         });
+
+        //tempStoredPswd = (TextView) findViewById(R.id.textTitle);
+        //tempStoredPswd.setText(password); // -- simple check for whether or not the password is being passed correctly
+    }
+
+    private void loadA(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        //b=0;
+        b = sharedPreferences.getInt("inta", 0);
     }
 
     private String grabIntent(Intent intent){
@@ -127,12 +146,17 @@ public class MainActivity extends AppCompatActivity {
         buttonToPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(z==0)
-                    configureCreateEncryptedPassword();
-                else {
+                if(auth) {
+                    a = 1;
+                    applyA();
                     Intent toAdd = new Intent(MainActivity.this, NewPassword.class);
                     toAdd.putExtra(MESSAGE_MAIN, password);
                     startActivity(toAdd);
+                }
+                else if(z==0)
+                    configureCreateEncryptedPassword();
+                else {
+                    configureEnterEncryptedPassword();
                 }
 
             }
@@ -146,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(auth) {
+                    a=2;
+                    applyA();
                     Intent newPass = new Intent(MainActivity.this, DeletePassword.class);
                     newPass.putExtra(MESSAGE_MAIN, password);
                     startActivity(newPass);
@@ -161,6 +187,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void applyA(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        SharedPreferences.Editor editA = sharedPreferences.edit();
+        editA.putInt("inta", a);
+        editA.apply();
+    }
 
     private void configureCreateEncryptedPassword(){
         startActivity(new Intent(MainActivity.this, CreateEncryptedPassword.class));

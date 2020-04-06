@@ -29,16 +29,19 @@ public class NewPassword extends AppCompatActivity {
     EditText editSite, editUser, editPass, tmpkey;
     Button btnAdd;
     CheckBox encCheck;
+    int c = 0;
     public static final String MESSAGE_NEW = "com.example.tri_hackyon.YESSAGE";
     private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Intent intent = getIntent();
-        password = intent.getStringExtra(MainActivity.MESSAGE_MAIN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
+        Intent intent = getIntent();
+        password = intent.getStringExtra(MainActivity.MESSAGE_MAIN);
         myDb = new SQLHelper(this); //instance of new SQL DB
+        //TextView tempTitle = (TextView) findViewById(R.id.textTitle);
+        //tempTitle.setText(password);   // -- This is a check for whether or not the password is being passed to this activity
         editSite = (EditText) findViewById(R.id.enterWebName);
         editUser = (EditText) findViewById(R.id.enterUserName);
         editPass = (EditText) findViewById(R.id.enterPass);
@@ -57,12 +60,20 @@ public class NewPassword extends AppCompatActivity {
                         if(encCheck.isChecked()){
                             try {
                                 addEncrypted();
+                                Intent toMain = new Intent(NewPassword.this, MainActivity.class);
+                                toMain.putExtra(MESSAGE_NEW, password);
+                                startActivity(toMain);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
                         else{
-                            addUnencrypted();
+                            //if (c == 0){
+                                addUnencrypted();//}
+                            //else {
+                                Intent toMain = new Intent(NewPassword.this, MainActivity.class);
+                                toMain.putExtra(MESSAGE_NEW, password);
+                                startActivity(toMain);//}
                         }
                     }
                 }
@@ -74,9 +85,7 @@ public class NewPassword extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent toMain = new Intent(NewPassword.this, MainActivity.class);
-                toMain.putExtra(MESSAGE_NEW, password);
-                startActivity(toMain);
+                finish();
             }
         });
     }
@@ -85,12 +94,11 @@ public class NewPassword extends AppCompatActivity {
         boolean isInserted = myDb.insertData(editSite.getText().toString(), //checks text boxes and passes it to SQLHelper's data inserter
                 editUser.getText().toString(),
                 editPass.getText().toString());
-        if (isInserted)
-            Toast.makeText(NewPassword.this, "data inserted", Toast.LENGTH_LONG).show();
+        if (isInserted){
+            Toast.makeText(NewPassword.this, "data inserted", Toast.LENGTH_LONG).show();}
         else
             Toast.makeText(NewPassword.this, "data not inserted", Toast.LENGTH_LONG).show();
 
-        startActivity(new Intent(NewPassword.this, MainActivity.class)); //moves back to homescreen
     }
 
     public void addEncrypted() throws Exception {

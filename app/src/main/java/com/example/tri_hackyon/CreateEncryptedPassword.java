@@ -73,8 +73,8 @@ public class CreateEncryptedPassword extends AppCompatActivity {
                 if (checkPswdString != null && !checkPswdString.isEmpty()){
                     encryptData();
                     grabVariable();
-                    //y++;
-                    y=0;// This is code that, if needed, clears the variable so that it will function like new
+                    y++;
+                    //y=0;// This is code that, if needed, clears the variable so that it will function like new
                     applyVariable();
                     startActivity(new Intent(CreateEncryptedPassword.this, MainActivity.class));}
                 else {Toast.makeText(getApplicationContext(), "I'm sorry, please enter a password.", Toast.LENGTH_LONG).show();}

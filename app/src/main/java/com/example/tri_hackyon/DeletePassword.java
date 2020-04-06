@@ -41,9 +41,7 @@ public class DeletePassword extends AppCompatActivity {
         delBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent toMain = new Intent(DeletePassword.this, MainActivity.class);
-                toMain.putExtra(MESSAGE_DELETE, password);
-                startActivity(toMain);
+                finish();
             }
         });
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +65,9 @@ public class DeletePassword extends AppCompatActivity {
         }
         myDb.deleteData(ID);
         Toast.makeText(DeletePassword.this, "Entry Deleted", Toast.LENGTH_LONG).show();
-        startActivity(new Intent(DeletePassword.this, MainActivity.class));
+        Intent toMain = new Intent(DeletePassword.this, MainActivity.class);
+        toMain.putExtra(MESSAGE_DELETE, password);
+        startActivity(toMain);
     }
 
 
