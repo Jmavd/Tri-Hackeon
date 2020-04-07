@@ -12,11 +12,15 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Random;
+
 public class NewPassword extends AppCompatActivity {
+    private static final int MAX_LENGTH = 20;
     SQLHelper myDb;
     EditText editSite, editUser, editPass;
     Button btnAdd;
     CheckBox encCheck;
+    CheckBox genCheck;
     public static final String MESSAGE_NEW = "com.example.tri_hackyon.YESSAGE";
     private String password;
 
@@ -39,6 +43,16 @@ public class NewPassword extends AppCompatActivity {
         editSite = findViewById(R.id.enterWebName);
         editUser = findViewById(R.id.enterUserName);
         editPass = findViewById(R.id.enterPass);
+        genCheck = (CheckBox) findViewById(R.id.checkGen);
+        genCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (genCheck.isChecked())
+                    editPass.setText(random());
+                else
+                    editPass.setText("");
+            }
+        });
         btnAdd = findViewById(R.id.buttonSave);
         encCheck = findViewById(R.id.checkEncryption);
 
@@ -77,6 +91,18 @@ public class NewPassword extends AppCompatActivity {
         Intent toMain = new Intent(NewPassword.this, MainActivity.class);
         toMain.putExtra(MESSAGE_NEW, password);
         startActivity(toMain);//}
+    }
+
+    public static String random() {
+        Random generator = new Random();
+        StringBuilder randomStringBuilder = new StringBuilder();
+        int randomLength = generator.nextInt(MAX_LENGTH);
+        char tempChar;
+        for (int i = 0; i < randomLength; i++){
+            tempChar = (char) (generator.nextInt(96) + 32);
+            randomStringBuilder.append(tempChar);
+        }
+        return randomStringBuilder.toString();
     }
 
     private void backButton() {
