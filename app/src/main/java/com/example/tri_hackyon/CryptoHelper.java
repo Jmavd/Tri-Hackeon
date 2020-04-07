@@ -17,7 +17,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 class CryptoHelper {
     private byte[] keyValue;
-    public String encrypt(String plaintext,String password) throws Exception {
+
+    String encrypt(String plaintext, String password) throws Exception {
         keyValue = digestByte(password);
         byte[] rawKey = getRawKey();
         SecretKey key = new SecretKeySpec(rawKey, "AES");
@@ -27,7 +28,7 @@ class CryptoHelper {
         return toHex(encrypted);
     }
 
-    public String decrypt(String ciphertext,String password) throws Exception {
+    String decrypt(String ciphertext, String password) throws Exception {
         keyValue = digestByte(password);
         byte[] enc = toByte(ciphertext);
         SecretKey key = new SecretKeySpec(keyValue, "AES");
@@ -44,9 +45,7 @@ class CryptoHelper {
         return raw;
     }
 
-
-
-    public byte[] toByte(String hexString) {
+    private byte[] toByte(String hexString) {
         int len = hexString.length() / 2;
         byte[] result = new byte[len];
         for (int i = 0; i < len; i++)
@@ -55,7 +54,7 @@ class CryptoHelper {
         return result;
     }
 
-    public String toHex(byte[] buf) {
+    private String toHex(byte[] buf) {
         if (buf == null)
             return "";
         StringBuffer result = new StringBuffer(2 * buf.length);
@@ -65,9 +64,8 @@ class CryptoHelper {
         return result.toString();
     }
 
-    private final String HEX = "0123456789ABCDEF";
-
     private void appendHex(StringBuffer sb, byte b) {
+        String HEX = "0123456789ABCDEF";
         sb.append(HEX.charAt((b >> 4) & 0x0f)).append(HEX.charAt(b & 0x0f));
     }
 
@@ -90,7 +88,8 @@ class CryptoHelper {
         rawPlain = md.digest(rawPlain);
         return rawPlain;
     }
-    public String digestString(String plaintext){
+
+    String digestString(String plaintext){
         byte[] rawPlain;
         MessageDigest md;
         try {
@@ -114,9 +113,5 @@ class CryptoHelper {
             e.printStackTrace();
         }
         return hash;
-    }
-
-    public String dualDigest(String plaintext){
-        return digestString(digestString(plaintext));
     }
 }

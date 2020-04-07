@@ -1,15 +1,12 @@
 package com.example.tri_hackyon;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class CreateEncryptedPassword extends AppCompatActivity {
@@ -17,7 +14,6 @@ public class CreateEncryptedPassword extends AppCompatActivity {
     CryptoHelper crypt;
     public String sentText;
     public String ultiText;
-    private Button cancelButton;
     private Button createButton;
     private String storedPassword;
     private String checkPswdString;
@@ -31,11 +27,11 @@ public class CreateEncryptedPassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_encrypted_password);
         loadData();
-        firstCreatePassword = (EditText) findViewById(R.id.firstPopupCreatePassword);
+        firstCreatePassword = findViewById(R.id.firstPopupCreatePassword);
         //storedPassword = firstPopupCreatePassword.getText().toString(); //(Temporary Storage - now deprecated)
         loadData();
         updateData();
-        Button overrideButton = (Button) findViewById(R.id.button2);
+        Button overrideButton = findViewById(R.id.button2);
         overrideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,14 +47,14 @@ public class CreateEncryptedPassword extends AppCompatActivity {
     }
 
     private void enterCreatedPassword(){
-        cancelButton = (Button) findViewById(R.id.firstPopupButtonCancel);
+        Button cancelButton = findViewById(R.id.firstPopupButtonCancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        createButton = (Button) findViewById(R.id.firstPopupButtonCreate);
+        createButton = findViewById(R.id.firstPopupButtonCreate);
         passwordCheck();
     }
 
@@ -68,9 +64,9 @@ public class CreateEncryptedPassword extends AppCompatActivity {
             public void onClick(View v) {
                 /*Context context = getActivity();
                 SharedPreferences sharedPref = context.getSharedPreferences(
-                        getString(R.string.preference_file_key), Context.MODE_PRIVATE);*/ //attempted implementation of shared pref
+                        getString(R.string.preference_file_key), Context.MODE_PRIVATE);*/
                 checkPswdString = firstCreatePassword.getText().toString();
-                if (checkPswdString != null && !checkPswdString.isEmpty()){
+                if (!checkPswdString.isEmpty()){
                     encryptData();
                     grabVariable();
                     y++;
@@ -86,6 +82,7 @@ public class CreateEncryptedPassword extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         y = sharedPreferences.getInt("inti", 0);
     }
+
     private void applyVariable(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor editor2 = sharedPreferences.edit();
@@ -114,4 +111,5 @@ public class CreateEncryptedPassword extends AppCompatActivity {
     public void updateData(){
         firstCreatePassword.setText(storedPassword);
     }
+
 }

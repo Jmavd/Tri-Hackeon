@@ -1,6 +1,5 @@
 package com.example.tri_hackyon;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,16 +8,10 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
-
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-
-import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.IOIO;
 import ioio.lib.api.Uart;
 import ioio.lib.api.exception.ConnectionLostException;
@@ -28,17 +21,15 @@ import ioio.lib.util.android.IOIOActivity;
 
 public class SendPassword extends IOIOActivity {
 
-    TextView sendBox, error;
-    private ToggleButton button_;
-    private byte[] arr = {'e','a','t',' ','m','o','r','e'};
-    Uart uart;
-    OutputStream out;
-    boolean pressed = false;
-    private Button buteen;
+    private TextView sendBox, error;
+    private Uart uart;
+    private OutputStream out;
+    private boolean pressed = false;
+    private Button sendBut, sendBack;
     private SQLHelper myDb;
     private String[] [] parsedArray;
-    private Integer lastUnc;
-    private String stringToSend;
+    private Integer lastUnc = 0;
+    private String stringToSend,password;
     public static final String MESSAGE_SEND = "com.example.tri_hackyon.MESSAGE";
 
     @Override
@@ -46,21 +37,33 @@ public class SendPassword extends IOIOActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_password);
         setA();
-        buteen = findViewById(R.id.sendSend);
+        sendBut = findViewById(R.id.sendSend);
+        sendBack = findViewById(R.id.sendBack);
         sendBox = findViewById(R.id.sendTextBox);
         error = findViewById(R.id.sendError);
         parsedArray = new String [4] [getArrSize()];
         Intent intent = getIntent();
-        final String password = intent.getStringExtra(MainActivity.MESSAGE_MAIN);
+        password = intent.getStringExtra(MainActivity.MESSAGE_MAIN);
         parseDBU();
-
         try {
             parseDBE(password);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        checkListEmpty();
+        setListeners();
+    }
 
-        buteen.setOnClickListener(new View.OnClickListener() {
+    private void setListeners(){
+        sendBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toMain = new Intent(SendPassword.this, MainActivity.class);
+                toMain.putExtra(MESSAGE_SEND, password);
+                startActivity(toMain);
+            }
+        });
+        sendBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getInput();
@@ -89,12 +92,7 @@ public class SendPassword extends IOIOActivity {
     public void parseDBU() {
         myDb = new SQLHelper(this); //instance of sqlHelper
         Cursor res = myDb.getUData(); //instance of SQL's cursor
-        if (res.getCount() == 0) {              //if DB is empty
-            updateList("Nothing found","","");
-            return;
-        }
-        else{             //if an entry exists
-            StringBuffer buffer = new StringBuffer();
+            if (res.getCount() != 0) { //if the DB isn't empty
             String domain;
             String ID;
             String user;
@@ -111,7 +109,7 @@ public class SendPassword extends IOIOActivity {
                 parsedArray[3] [index] = domain;
                 user = (user+"\n");
                 domain = (domain+"\n");
-                String indStr = (Integer.toString(index)+"\n");
+                String indStr = (index)+"\n";
                 updateList(indStr, user, domain);
                 index++;
             }
@@ -123,11 +121,7 @@ public class SendPassword extends IOIOActivity {
         CryptoHelper crypto = new CryptoHelper();
         SQLHelper thisDB = new SQLHelper(this); //instance of sqlHelper
         Cursor res = thisDB.getEData(); //instance of SQL's cursor
-        if (res.getCount() == 0) {              //if DB is empty
-            updateList("Nothing found", "", "");
-            return;
-        } else {             //if an entry exists
-            StringBuffer buffer = new StringBuffer();
+        if (res.getCount() != 0) {              //if DB is empty
             String domain;
             String pass;
             String user;
@@ -144,20 +138,28 @@ public class SendPassword extends IOIOActivity {
                 parsedArray[3][index] = domain;
                 user = (user + "\n");
                 domain = (domain + "\n");
-                String indStr = (Integer.toString(index)+"\n");
+                String indStr = (index+"\n");
                 updateList(indStr, user, domain);
                 index++;
             }
         }
     }
-        public void updateList(String i, String u, String d){ //actually updates the homescreen list
-            TextView ucol = (TextView) findViewById(R.id.sendIDCol);
-            TextView pcol = (TextView) findViewById(R.id.sendUserCol);
-            TextView dcol = (TextView) findViewById(R.id.sendDomCol);
-            ucol.append(i);
-            pcol.append(u);
-            dcol.append(d);
+    
+    public void updateList(String i, String u, String d){ //actually updates the password list
+        TextView icol = findViewById(R.id.sendIDCol);
+        TextView ucol = findViewById(R.id.sendUserCol);
+        TextView dcol = findViewById(R.id.sendDomCol);
+        icol.append(i);
+        ucol.append(u);
+        dcol.append(d);
+    }
+
+    public void checkListEmpty(){ //checks if the list is empty
+        TextView colChk = findViewById(R.id.sendIDCol);
+        if((colChk.getText().toString()).equals("ID:\n")){
+            colChk.append("Nothing Found");
         }
+    }
 
     class Looper extends BaseIOIOLooper { //This is the code that runs on the IOIO
         @Override
@@ -169,7 +171,7 @@ public class SendPassword extends IOIOActivity {
         }
 
         @Override
-        public void loop() throws ConnectionLostException, InterruptedException { //runs repeatedly after setup
+        public void loop() throws InterruptedException { //runs repeatedly after setup
             if(pressed) {
                 try {
                     out.write(stringToSend.getBytes());
@@ -249,12 +251,12 @@ public class SendPassword extends IOIOActivity {
             public void run() {
                 if (enable) {
                     if (numConnected_++ == 0) {
-                        buteen.setEnabled(true);
+                        sendBut.setEnabled(true);
                         error.setVisibility(View.INVISIBLE);
                     }
                 } else {
                     if (--numConnected_ == 0) {
-                        buteen.setEnabled(false);
+                        sendBut.setEnabled(false);
                         error.setVisibility(View.VISIBLE);
                     }
                 }
