@@ -18,6 +18,7 @@ public class CreateEncryptedPassword extends AppCompatActivity {
     private String storedPassword;
     private String checkPswdString, checkConfirmString;
     private int y;
+    private int h = 0;
 
     //public static final String SHARED_PREFS = "sharedPrefs";
     //public static final String TEXT = "text";
@@ -32,6 +33,13 @@ public class CreateEncryptedPassword extends AppCompatActivity {
         loadData();
         updateData();
         enterCreatedPassword();
+    }
+
+    private void applyH(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        SharedPreferences.Editor editH = sharedPreferences.edit();
+        editH.putInt("inth", h);
+        editH.apply();
     }
 
     private void enterCreatedPassword(){
@@ -61,6 +69,8 @@ public class CreateEncryptedPassword extends AppCompatActivity {
                         grabVariable();
                         y++;
                         //y=0;// This is code that, if needed, clears the variable so that it will function like new
+                        h++;
+                        applyH();
                         applyVariable();
                         startActivity(new Intent(CreateEncryptedPassword.this, MainActivity.class));
                     }

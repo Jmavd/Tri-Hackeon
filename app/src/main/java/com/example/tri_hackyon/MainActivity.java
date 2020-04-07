@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     CheckBox cqbx;
     private int a;
     private int b;
+    private int h;
     SQLHelper myDb;
     private String password = "";
     private boolean auth = false;
@@ -39,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loadA(); //loads the variables for keeping track of intent
+        grabH();
+        if (h == 0)
+            configureCreateEncryptedPassword();
         //b=0;
         //applyA(); //TEST CODE - KEEP
         Intent intent = getIntent();
@@ -49,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
         checkListEmpty(); //checks if there is data loaded
         loadVariable(); //loads values for checking if creating or entering password
         configureButtons();
+    }
+
+    private void grabH(){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
+        h = sharedPreferences.getInt("inth", 0);
     }
 
     private void authActivities(){
@@ -177,7 +186,8 @@ public class MainActivity extends AppCompatActivity {
                 if (z==0){
                     if(cqbx.isChecked()&&!auth){
                         storeVariable();
-                        configureCreateEncryptedPassword(); }}
+                        //configureCreateEncryptedPassword();
+                        }}
                 if(auth&&!cqbx.isChecked()){
                     auth = false;
                     Button buttonToPassword = findViewById(R.id.buttonToPassword);
