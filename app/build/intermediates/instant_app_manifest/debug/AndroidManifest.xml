@@ -33,6 +33,9 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <activity android:name="com.example.tri_hackyon.HelpPage" />
+        <activity android:name="com.example.tri_hackyon.Settings" />
+
         <uses-library
             android:name="com.android.future.usb.accessory"
             android:required="false" />

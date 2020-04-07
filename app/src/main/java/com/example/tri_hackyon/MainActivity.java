@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -90,18 +91,27 @@ public class MainActivity extends AppCompatActivity {
         if (b==4){
             password = intent.getStringExtra(EnterEncryptedPassword.EXTRA_MESSAGE);
             a=0;
-            applyA();}
+            applyA();
+        }
         else if (b==1){
             password = intent.getStringExtra(NewPassword.MESSAGE_NEW);
             a=0;
-            applyA();}
+            applyA();
+        }
         else if (b==2){
             password = intent.getStringExtra(DeletePassword.MESSAGE_DELETE);
             a=0;
-            applyA();}
+            applyA();
+        }
         else if (b == 3){
             password = intent.getStringExtra(SendPassword.MESSAGE_SEND);
             a=0;
+            applyA();
+        }
+        else if(b == 5){
+            password = intent.getStringExtra(Settings.MESSAGE_SETTINGS);
+            a=0;
+            applyA();
         }
     }
 
@@ -114,6 +124,17 @@ public class MainActivity extends AppCompatActivity {
         Button buttonToPassword = findViewById(R.id.buttonToPassword);
         Button deleteButton = findViewById(R.id.buttonToDelete);
         Button sendButton = findViewById(R.id.toSend);
+        ImageView settings = findViewById(R.id.toSettings);
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toAdd = new Intent(MainActivity.this, Settings.class);
+                toAdd.putExtra(MESSAGE_MAIN, password);
+                startActivity(toAdd);
+            }
+        }
+        );
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,7 +277,6 @@ public class MainActivity extends AppCompatActivity {
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         storedPswd = sharedPreferences.getString("password", "");
-
     }
 
     public void storeVariable(){

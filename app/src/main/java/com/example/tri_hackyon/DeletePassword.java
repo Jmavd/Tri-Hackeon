@@ -23,9 +23,9 @@ public class DeletePassword extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        password = intent.getStringExtra(MainActivity.MESSAGE_MAIN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_password);
+        password = intent.getStringExtra(MainActivity.MESSAGE_MAIN);
         setA();
         IDArr = new int[getArrSize()];
         parseDBU();
@@ -117,7 +117,6 @@ public class DeletePassword extends AppCompatActivity {
                 user = (res.getString(2));
                 ID = ((res.getString(0))); //made an oops in SQL helper class, quickfix
                 domain = (res.getString(3));
-                password = (res.getString(1));
                 IDArr[index] = Integer.parseInt(ID);
                 user = (user+"\n");
                 domain = (domain+"\n");

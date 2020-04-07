@@ -107,8 +107,8 @@ public class NewPassword extends AppCompatActivity {
                 crypto.encrypt(editUser.getText().toString(),key),
                 crypto.encrypt(editPass.getText().toString(),key));
         if (isInserted)
-            Toast.makeText(NewPassword.this, "data inserted", Toast.LENGTH_LONG).show();
+            Toast.makeText(NewPassword.this, "Password Added!", Toast.LENGTH_LONG).show();
         else
-            Toast.makeText(NewPassword.this, "data not inserted", Toast.LENGTH_LONG).show();
+            Toast.makeText(NewPassword.this, "Error: Data not inserted", Toast.LENGTH_LONG).show();
     }
 }

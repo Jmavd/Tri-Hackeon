@@ -10,13 +10,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class CreateEncryptedPassword extends AppCompatActivity {
-    public EditText firstCreatePassword;
+    public EditText firstCreatePassword, firstConfirmPassword;
     CryptoHelper crypt;
     public String sentText;
     public String ultiText;
     private Button createButton;
     private String storedPassword;
-    private String checkPswdString;
+    private String checkPswdString, checkConfirmString;
     private int y;
 
     //public static final String SHARED_PREFS = "sharedPrefs";
@@ -28,22 +28,10 @@ public class CreateEncryptedPassword extends AppCompatActivity {
         setContentView(R.layout.activity_create_encrypted_password);
         loadData();
         firstCreatePassword = findViewById(R.id.firstPopupCreatePassword);
-        //storedPassword = firstPopupCreatePassword.getText().toString(); //(Temporary Storage - now deprecated)
+        firstConfirmPassword = findViewById(R.id.firstPopupConfirmPassword);
         loadData();
         updateData();
-        Button overrideButton = findViewById(R.id.button2);
-        overrideButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                overrideCheck();
-            }
-        });
         enterCreatedPassword();
-    }
-
-    private void overrideCheck(){
-        encryptData();
-        startActivity(new Intent(CreateEncryptedPassword.this, MainActivity.class));
     }
 
     private void enterCreatedPassword(){
@@ -66,14 +54,19 @@ public class CreateEncryptedPassword extends AppCompatActivity {
                 SharedPreferences sharedPref = context.getSharedPreferences(
                         getString(R.string.preference_file_key), Context.MODE_PRIVATE);*/
                 checkPswdString = firstCreatePassword.getText().toString();
-                if (!checkPswdString.isEmpty()){
-                    encryptData();
-                    grabVariable();
-                    y++;
-                    //y=0;// This is code that, if needed, clears the variable so that it will function like new
-                    applyVariable();
-                    startActivity(new Intent(CreateEncryptedPassword.this, MainActivity.class));}
-                else {Toast.makeText(getApplicationContext(), "I'm sorry, please enter a password.", Toast.LENGTH_LONG).show();}
+                checkConfirmString = firstConfirmPassword.getText().toString();
+                if (checkConfirmString.equals(checkPswdString)) {
+                    if (!checkPswdString.isEmpty()) {
+                        encryptData();
+                        grabVariable();
+                        y++;
+                        //y=0;// This is code that, if needed, clears the variable so that it will function like new
+                        applyVariable();
+                        startActivity(new Intent(CreateEncryptedPassword.this, MainActivity.class));
+                    }
+                    else {Toast.makeText(getApplicationContext(), "Please enter a Password", Toast.LENGTH_LONG).show();}
+                }
+                else {Toast.makeText(getApplicationContext(), "Passwords don't match", Toast.LENGTH_LONG).show();}
             }
         });
     }

@@ -73,7 +73,11 @@ public class SQLHelper extends SQLiteOpenHelper {
         else {
             db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE ID = " + ID);
         }
+    }
 
-    } //maybe change t
+    void emptyDB(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+TABLE2_NAME);
+    }
 
 }

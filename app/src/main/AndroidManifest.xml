@@ -11,12 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".HelpPage"></activity>
+        <activity android:name=".Settings" />
+
         <uses-library
             android:name="com.android.future.usb.accessory"
             android:required="false" />
+
         <activity
             android:name=".SendPassword"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".EnterEncryptedPassword" />
         <activity android:name=".CreateEncryptedPassword" />
         <activity android:name=".NewPassword" />

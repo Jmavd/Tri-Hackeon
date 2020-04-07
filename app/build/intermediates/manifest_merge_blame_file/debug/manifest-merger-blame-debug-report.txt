@@ -33,7 +33,7 @@
 23-->[com.github.ytai.ioio:IOIOLibAndroidDevice:5.07] C:\Users\jmavd\.gradle\caches\transforms-2\files-2.1\a2b34ee6d6242145aeb5426b7c609748\IOIOLibAndroidDevice-5.07\AndroidManifest.xml:9:9-33
 24
 25    <application
-25-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:7:5-40:19
+25-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:7:5-44:19
 26        android:allowBackup="true"
 26-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:8:9-35
 27        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -50,61 +50,68 @@
 33        android:testOnly="true"
 34        android:theme="@style/AppTheme" >
 34-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:13:9-40
-35        <uses-library
-35-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:14:9-16:40
-36            android:name="com.android.future.usb.accessory"
-36-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:15:13-60
-37            android:required="false" />
-37-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:16:13-37
-38
-39        <activity
-39-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:17:9-19:54
-40            android:name="com.example.tri_hackyon.SendPassword"
-40-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:18:13-41
-41            android:windowSoftInputMode="adjustPan" />
-41-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:19:13-52
-42        <activity android:name="com.example.tri_hackyon.EnterEncryptedPassword" />
-42-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:20:9-60
-42-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:20:19-57
-43        <activity android:name="com.example.tri_hackyon.CreateEncryptedPassword" />
-43-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:21:9-61
-43-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:21:19-58
-44        <activity android:name="com.example.tri_hackyon.NewPassword" />
-44-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:22:9-49
-44-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:22:19-46
-45        <activity
-45-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:23:9-25:55
-46            android:name="com.example.tri_hackyon.DeletePassword"
-46-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:24:13-43
-47            android:windowSoftInputMode="adjustPan" />
-47-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:25:13-52
-48        <activity android:name="com.example.tri_hackyon.MainActivity" >
-48-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:26:9-39:20
-48-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:26:19-47
-49            <intent-filter>
-49-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:27:13-31:29
-50                <action android:name="android.intent.action.MAIN" />
-50-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:28:17-69
-50-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:28:25-66
-51
-52                <category android:name="android.intent.category.LAUNCHER" />
-52-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:30:17-77
-52-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:30:27-74
-53            </intent-filter>
-54            <intent-filter>
-54-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:32:13-34:29
-55                <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
-55-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:33:17-93
-55-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:33:25-90
+35        <activity android:name="com.example.tri_hackyon.HelpPage" />
+35-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:14:9-55
+35-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:14:19-43
+36        <activity android:name="com.example.tri_hackyon.Settings" />
+36-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:15:9-46
+36-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:15:19-43
+37
+38        <uses-library
+38-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:17:9-19:40
+39            android:name="com.android.future.usb.accessory"
+39-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:18:13-60
+40            android:required="false" />
+40-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:19:13-37
+41
+42        <activity
+42-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:21:9-23:55
+43            android:name="com.example.tri_hackyon.SendPassword"
+43-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:22:13-41
+44            android:windowSoftInputMode="adjustPan" />
+44-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:23:13-52
+45        <activity android:name="com.example.tri_hackyon.EnterEncryptedPassword" />
+45-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:24:9-60
+45-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:24:19-57
+46        <activity android:name="com.example.tri_hackyon.CreateEncryptedPassword" />
+46-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:25:9-61
+46-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:25:19-58
+47        <activity android:name="com.example.tri_hackyon.NewPassword" />
+47-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:26:9-49
+47-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:26:19-46
+48        <activity
+48-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:27:9-29:55
+49            android:name="com.example.tri_hackyon.DeletePassword"
+49-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:28:13-43
+50            android:windowSoftInputMode="adjustPan" />
+50-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:29:13-52
+51        <activity android:name="com.example.tri_hackyon.MainActivity" >
+51-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:30:9-43:20
+51-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:30:19-47
+52            <intent-filter>
+52-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:31:13-35:29
+53                <action android:name="android.intent.action.MAIN" />
+53-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:32:17-69
+53-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:32:25-66
+54
+55                <category android:name="android.intent.category.LAUNCHER" />
+55-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:34:17-77
+55-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:34:27-74
 56            </intent-filter>
-57
-58            <meta-data
-58-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:36:13-38:60
-59                android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
-59-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:37:17-82
-60                android:resource="@xml/accessory_filter" />
-60-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:38:17-57
-61        </activity>
-62    </application>
-63
-64</manifest>
+57            <intent-filter>
+57-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:36:13-38:29
+58                <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
+58-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:37:17-93
+58-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:37:25-90
+59            </intent-filter>
+60
+61            <meta-data
+61-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:40:13-42:60
+62                android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+62-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:41:17-82
+63                android:resource="@xml/accessory_filter" />
+63-->C:\Users\jmavd\Desktop\THIS IS TRIHACK\app\src\main\AndroidManifest.xml:42:17-57
+64        </activity>
+65    </application>
+66
+67</manifest>

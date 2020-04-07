@@ -651,6 +651,7 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
+drawable blackcog
 drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
 drawable btn_checkbox_unchecked_mtrl
@@ -659,6 +660,8 @@ drawable btn_radio_off_mtrl
 drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
+drawable cog
+drawable darkgreycog
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable notification_action_background
@@ -743,7 +746,6 @@ id beginning
 id blocking
 id bottom
 id button
-id button2
 id buttonEnterPswd
 id buttonOneEnterPswd
 id buttonPanel
@@ -752,6 +754,7 @@ id buttonToDelete
 id buttonToPassword
 id center_vertical
 id chains
+id changeButton
 id checkBox
 id checkEncryption
 id checkGen
@@ -785,6 +788,7 @@ id expand_activities_button
 id expanded_menu
 id firstPopupButtonCancel
 id firstPopupButtonCreate
+id firstPopupConfirmPassword
 id firstPopupCreatePassword
 id firstPopupTitle
 id forever
@@ -812,6 +816,8 @@ id message
 id middle
 id multiply
 id never
+id newPassBox1
+id newPassBox2
 id newPwdBack
 id none
 id normal
@@ -819,6 +825,7 @@ id notification_background
 id notification_main_column
 id notification_main_column_container
 id off
+id oldPassBox
 id on
 id packed
 id parent
@@ -890,6 +897,10 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textTitle
 id textUserName
+id textView2
+id textView3
+id textView4
+id textView5
 id textWebName
 id time
 id title
@@ -898,6 +909,7 @@ id titleEnterPswd
 id titleOneEnterPswd
 id title_template
 id toSend
+id toSettings
 id top
 id topPanel
 id unchecked
@@ -952,9 +964,11 @@ layout abc_tooltip
 layout activity_create_encrypted_password
 layout activity_delete_password
 layout activity_enter_encrypted_password
+layout activity_help_page
 layout activity_main
 layout activity_new_password
 layout activity_send_password
+layout activity_settings
 layout custom_dialog
 layout encrypted_passwords_popup
 layout first_encrypted_passwords_popup
