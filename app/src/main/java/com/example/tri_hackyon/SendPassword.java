@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
 import java.io.OutputStream;
-import ioio.lib.api.IOIO;
 import ioio.lib.api.Uart;
 import ioio.lib.api.exception.ConnectionLostException;
 import ioio.lib.util.BaseIOIOLooper;
@@ -36,19 +35,25 @@ public class SendPassword extends IOIOActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_password);
-        setA();
         sendBut = findViewById(R.id.sendSend);
         sendBack = findViewById(R.id.sendBack);
         sendBox = findViewById(R.id.sendTextBox);
         error = findViewById(R.id.sendError);
-        parsedArray = new String [4] [getArrSize()];
         Intent intent = getIntent();
         password = intent.getStringExtra(MainActivity.MESSAGE_MAIN);
-        parseDBU();
-        try {
-            parseDBE(password);
-        } catch (Exception e) {
-            e.printStackTrace();
+        parsedArray = new String [4] [getArrSize()];
+        if(password.isEmpty()) {
+            parseDBU();
+            setA(0);
+        }
+        else {
+            setA(3);
+            parseDBU();
+            try {
+                parseDBE(password);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         checkListEmpty();
         setListeners();
@@ -74,10 +79,10 @@ public class SendPassword extends IOIOActivity {
     }
 
     //sets the variable to determine activity intent for main
-    private void setA(){
+    private void setA(int a){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putInt("inta", 3);
+        edit.putInt("inta", a);
         edit.apply();
     }
 
@@ -85,8 +90,12 @@ public class SendPassword extends IOIOActivity {
     public int getArrSize(){
         myDb = new SQLHelper(this);
         Cursor unc = myDb.getUData();
+        if(!password.isEmpty()){
         Cursor enc = myDb.getEData();
         return (unc.getCount()+enc.getCount());
+        }
+        else
+            return unc.getCount();
     }
 
     //parse SQL DB and update list

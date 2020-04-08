@@ -5,7 +5,7 @@
     <string name="help_app_body">This is TAPE, the Trihackeon Autonomous Password Enterer (great acronym, we know). It is a password vault (think Dashlane) that, when you plug in a device, can automatically type your password in a computer.
     Although it was designed with this in mind, the device is only needed for sending passwords to a computer and the app will function without.</string>
     <string name="help_but_title">What\'s what:</string>
-    <string name="help_but_authenticate"><b>Show Encrypted (Authenticate)</b>- Must be checked to modify entries, displays encrypted passwords</string>
+    <string name="help_but_authenticate"><b>Show Encrypted (Authenticate)</b>- Must be checked to modify entries; displays encrypted passwords</string>
     <string name="help_but_new"><b>Add New Password</b>- Adds a new entry</string>
     <string name="help_but_del"><b>Delete Password</b>- Deletes an existing entry</string>
     <string name="help_but_send"><b>Send a Password</b>- Requires a companion device, sends a password to a computer</string>

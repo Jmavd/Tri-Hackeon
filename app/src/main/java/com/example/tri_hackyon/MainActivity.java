@@ -57,10 +57,8 @@ public class MainActivity extends AppCompatActivity {
         if(auth){
             Button buttonToPassword = findViewById(R.id.buttonToPassword);
             Button deleteButton = findViewById(R.id.buttonToDelete);
-            Button sendButton = findViewById(R.id.toSend);
             buttonToPassword.setEnabled(true);
             deleteButton.setEnabled(true);
-            sendButton.setEnabled(true);
             cqbx.setChecked(true);
             try {
                 parseDBU();
@@ -126,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         b = sharedPreferences.getInt("inta", 0);
     }
 
-    //configures clicks
+    //configures onclicks
     private void configureButtons(){
         Button buttonToPassword = findViewById(R.id.buttonToPassword);
         Button deleteButton = findViewById(R.id.buttonToDelete);
@@ -157,9 +155,16 @@ public class MainActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent toAdd = new Intent(MainActivity.this, SendPassword.class);
-                toAdd.putExtra(MESSAGE_MAIN, password);
-                startActivity(toAdd);
+                if(auth) {
+                    Intent toAdd = new Intent(MainActivity.this, SendPassword.class);
+                    toAdd.putExtra(MESSAGE_MAIN, password);
+                    startActivity(toAdd);
+                }
+                else {
+                    Intent toAdd = new Intent(MainActivity.this, SendPassword.class);
+                    toAdd.putExtra(MESSAGE_MAIN, "");
+                    startActivity(toAdd);
+                }
             }
         }
         );
@@ -194,10 +199,8 @@ public class MainActivity extends AppCompatActivity {
                     auth = false;
                     Button buttonToPassword = findViewById(R.id.buttonToPassword);
                     Button deleteButton = findViewById(R.id.buttonToDelete);
-                    Button sendButton = findViewById(R.id.toSend);
                     buttonToPassword.setEnabled(false);
                     deleteButton.setEnabled(false);
-                    sendButton.setEnabled(false);
                     resetList();
                     try {
                         parseDBU();
@@ -207,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (z!=0){
                     if(cqbx.isChecked()&&!auth){
+                        cqbx.setChecked(false);
                         configureEnterEncryptedPassword();}}
             }
         });
@@ -248,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
         ucol.setText("Username:\n");
         pcol.setText("Password:\n");
         dcol.setText("Domain:\n");
+        checkListEmpty();
     }
 
     //parses the unencrypted SQL database
