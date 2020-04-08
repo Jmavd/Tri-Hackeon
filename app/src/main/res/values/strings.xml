@@ -8,7 +8,7 @@
     <string name="help_but_authenticate"><b>Show Encrypted (Authenticate)</b>- Must be checked to modify entries, displays encrypted passwords</string>
     <string name="help_but_new"><b>Add New Password</b>- Adds a new entry</string>
     <string name="help_but_del"><b>Delete Password</b>- Deletes an existing entry</string>
-    <string name="help_but_send"><b>Send a Password</b>b>- Requires a companion device, sends a password to a computer</string>
+    <string name="help_but_send"><b>Send a Password</b>- Requires a companion device, sends a password to a computer</string>
     <string name="help_but_settings"><b>Settings</b>- Changes the app password</string>
     <string name="help_link_title">Password Resources:</string>
     <string name="help_link_creating">Creating good passwords: <url>https://www.schneier.com/blog/archives/2014/03/choosing_secure_1.html</url></string>

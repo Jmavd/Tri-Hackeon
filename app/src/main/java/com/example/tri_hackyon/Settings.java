@@ -50,6 +50,7 @@ public class Settings extends AppCompatActivity {
         if(verifyOld()) {
             if (newPassBox.getText().toString().equals(newPassBox2.getText().toString())){
                 try {
+                    updateHash();
                     rebaseDB();
                     exit();
                 } catch (Exception e) {
@@ -85,7 +86,7 @@ public class Settings extends AppCompatActivity {
                 myDb.insertEncryptedData(col2,col0,col1);
                 i--;
             }
-            updateHash();
+
             password = newKey;
             return true;
         }
