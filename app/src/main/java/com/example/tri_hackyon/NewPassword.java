@@ -12,15 +12,17 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Random;
 
 public class NewPassword extends AppCompatActivity {
-    private static final int MAX_LENGTH = 20;
+    private static final int MAX_LENGTH = 3;
     SQLHelper myDb;
     EditText editSite, editUser, editPass;
-    Button btnAdd;
+    Button btnAdd,genCheck;
     CheckBox encCheck;
-    CheckBox genCheck;
+    private SecureRandom sr;
     public static final String MESSAGE_NEW = "com.example.tri_hackyon.YESSAGE";
     private String password;
 
@@ -28,6 +30,7 @@ public class NewPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
+        sr = new SecureRandom();
         setVars();
         setA();
         AddData();
@@ -43,14 +46,11 @@ public class NewPassword extends AppCompatActivity {
         editSite = findViewById(R.id.enterWebName);
         editUser = findViewById(R.id.enterUserName);
         editPass = findViewById(R.id.enterPass);
-        genCheck = (CheckBox) findViewById(R.id.checkGen);
+        genCheck = findViewById(R.id.genPass);
         genCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (genCheck.isChecked())
                     editPass.setText(random());
-                else
-                    editPass.setText("");
             }
         });
         btnAdd = findViewById(R.id.buttonSave);
@@ -93,13 +93,13 @@ public class NewPassword extends AppCompatActivity {
         startActivity(toMain);//}
     }
 
-    public static String random() {
+    public String random() {
         Random generator = new Random();
         StringBuilder randomStringBuilder = new StringBuilder();
-        int randomLength = generator.nextInt(MAX_LENGTH);
+        int randomLength = generator.nextInt(MAX_LENGTH)+9;
         char tempChar;
-        for (int i = 0; i < randomLength; i++){
-            tempChar = (char) (generator.nextInt(96) + 32);
+        for (int i = 0; i <= randomLength; i++){
+            tempChar = (char) (sr.nextInt(95) + 32);
             randomStringBuilder.append(tempChar);
         }
         return randomStringBuilder.toString();

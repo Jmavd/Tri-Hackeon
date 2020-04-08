@@ -5,19 +5,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 public class HelpPage extends AppCompatActivity {
 
-    public static final String MESSAGE_SETTINGS = "com.example.tri_hackyon.MESSAGE";
+    public static final String MESSAGE_HELP = "com.example.tri_hackyon.MESSAGE";
     private String password;
+    private Button back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_help_page);
         password = getIntent().getStringExtra(MainActivity.MESSAGE_MAIN);
         setA();
-        //does something
+        setListener();
+    }
+
+    private void setListener(){
+        back = findViewById(R.id.helpGoBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+             exit();
+            }
+    });
     }
 
     private void setA(){
@@ -29,7 +42,7 @@ public class HelpPage extends AppCompatActivity {
 
     private void exit(){
         Intent toMain = new Intent(HelpPage.this, MainActivity.class);
-        toMain.putExtra(MESSAGE_SETTINGS, password);
+        toMain.putExtra(MESSAGE_HELP, password);
         startActivity(toMain);
     }
 }

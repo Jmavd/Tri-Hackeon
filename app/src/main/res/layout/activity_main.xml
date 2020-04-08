@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:enabled="false"
-        android:text="Add New Password"
+        android:text="@string/add_new_password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.886"
@@ -24,8 +24,8 @@
         android:id="@+id/checkBox"
         android:layout_width="320dp"
         android:layout_height="57dp"
-        android:text="Show Encrypted (Authenticate)"
-        android:textSize="20dp"
+        android:text="@string/auth"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.186"
@@ -38,9 +38,9 @@
         android:layout_width="173dp"
         android:layout_height="58dp"
         android:gravity="center"
-        android:text="TAPE"
+        android:text="@string/appName"
         android:textColor="#000000"
-        android:textSize="40dp"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +52,6 @@
         android:id="@+id/scrollView2"
         android:layout_width="342dp"
         android:layout_height="278dp"
-        android:clickable="true"
         android:longClickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,19 +73,19 @@
                     android:id="@+id/usercol"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Username:\n" />
+                    android:text="@string/userCol" />
 
                 <TextView
                     android:id="@+id/passcol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Password:\n" />
+                    android:text="@string/passCol" />
 
                 <TextView
                     android:id="@+id/domcol"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Domain:\n" />
+                    android:text="@string/domCol" />
             </TableRow>
 
         </TableLayout>
@@ -97,7 +96,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:enabled="false"
-        android:text="Delete Password"
+        android:text="@string/delete_password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.077"
@@ -106,24 +105,12 @@
         app:layout_constraintVertical_bias="0.896" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="85dp"
-        android:layout_height="40dp"
-        android:text="Debug (Create Password)"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
         android:id="@+id/toSend"
         android:layout_width="158dp"
         android:layout_height="49dp"
         android:layout_marginBottom="16dp"
         android:enabled="false"
-        android:text="Send A Password"
+        android:text="@string/sendpass"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
@@ -133,12 +120,29 @@
         android:id="@+id/toSettings"
         android:layout_width="52dp"
         android:layout_height="48dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:clickable="true"
+        android:contentDescription="@string/settings"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/cog" />
+
+    <ImageView
+        android:id="@+id/toHelp"
+        android:layout_width="55dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.034"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/help"
+        android:contentDescription="@string/help" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

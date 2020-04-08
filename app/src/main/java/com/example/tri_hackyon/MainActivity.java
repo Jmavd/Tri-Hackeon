@@ -15,17 +15,6 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     int i = 0;
     int z = 0;
-    /*public static void setDefaults(String key, String value, Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(key, value);
-        editor.apply();
-    }
-
-    public static String getDefaults(String key, Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString(key, null);
-    }*/
     String storedPswd = "ain't null";
     CheckBox cqbx;
     private int a;
@@ -122,6 +111,11 @@ public class MainActivity extends AppCompatActivity {
             a=0;
             applyA();
         }
+        else if(b==6){
+            password = intent.getStringExtra(HelpPage.MESSAGE_HELP);
+            a=0;
+            applyA();
+        }
     }
 
     private void loadA(){
@@ -134,11 +128,22 @@ public class MainActivity extends AppCompatActivity {
         Button deleteButton = findViewById(R.id.buttonToDelete);
         Button sendButton = findViewById(R.id.toSend);
         ImageView settings = findViewById(R.id.toSettings);
+        ImageView help = findViewById(R.id.toHelp);
 
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent toAdd = new Intent(MainActivity.this, Settings.class);
+                toAdd.putExtra(MESSAGE_MAIN, password);
+                startActivity(toAdd);
+            }
+        }
+        );
+
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toAdd = new Intent(MainActivity.this, HelpPage.class);
                 toAdd.putExtra(MESSAGE_MAIN, password);
                 startActivity(toAdd);
             }
@@ -163,20 +168,13 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(toAdd);
             }
         });
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                     Intent newPass = new Intent(MainActivity.this, DeletePassword.class);
                     newPass.putExtra(MESSAGE_MAIN, password);
                     startActivity(newPass);
-            }
-        });
-
-        Button buteen = findViewById(R.id.button);
-        buteen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                configureCreateEncryptedPassword();
             }
         });
 
@@ -206,6 +204,15 @@ public class MainActivity extends AppCompatActivity {
                 if (z!=0){
                     if(cqbx.isChecked()&&!auth){
                         configureEnterEncryptedPassword();}}
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newPass = new Intent(MainActivity.this, DeletePassword.class);
+                newPass.putExtra(MESSAGE_MAIN, password);
+                startActivity(newPass);
             }
         });
 

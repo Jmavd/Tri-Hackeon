@@ -12,7 +12,7 @@
         android:layout_height="64dp"
         android:layout_marginTop="32dp"
         android:gravity="center"
-        android:text="Settings:"
+        android:text="@string/settingsTitle"
         android:textColor="#000000"
         android:textSize="36sp"
         android:textStyle="bold"
@@ -25,7 +25,7 @@
         android:layout_width="99dp"
         android:layout_height="52dp"
         android:gravity="center"
-        android:text="Change App Password:"
+        android:text="@string/settingsChangeTitle"
         android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,13 +43,15 @@
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/newPassBox1"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/newPassBox1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +69,8 @@
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newPassBox1" />
+        app:layout_constraintTop_toBottomOf="@+id/newPassBox1"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/textView3"
@@ -78,7 +81,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="18dp"
         android:gravity="center"
-        android:text="Old Password"
+        android:text="@string/old_password"
         app:layout_constraintBottom_toBottomOf="@+id/oldPassBox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/oldPassBox"
@@ -89,7 +92,7 @@
         android:layout_width="106dp"
         android:layout_height="32dp"
         android:gravity="center"
-        android:text="New Password"
+        android:text="@string/new_password"
         app:layout_constraintBottom_toBottomOf="@+id/newPassBox1"
         app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="@+id/newPassBox1" />
@@ -99,7 +102,7 @@
         android:layout_width="87dp"
         android:layout_height="36dp"
         android:gravity="center"
-        android:text="Confirm New Password"
+        android:text="@string/confirm_new_password"
         app:layout_constraintBottom_toBottomOf="@+id/newPassBox2"
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toTopOf="@+id/newPassBox2"
@@ -109,7 +112,7 @@
         android:id="@+id/changeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Change"
+        android:text="@string/settingschangebut"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"

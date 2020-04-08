@@ -32,7 +32,8 @@ public class CreateEncryptedPassword extends AppCompatActivity {
         firstConfirmPassword = findViewById(R.id.firstPopupConfirmPassword);
         loadData();
         updateData();
-        enterCreatedPassword();
+        createButton = findViewById(R.id.firstPopupButtonCreate);
+        passwordCheck();
     }
 
     private void applyH(){
@@ -40,18 +41,6 @@ public class CreateEncryptedPassword extends AppCompatActivity {
         SharedPreferences.Editor editH = sharedPreferences.edit();
         editH.putInt("inth", h);
         editH.apply();
-    }
-
-    private void enterCreatedPassword(){
-        Button cancelButton = findViewById(R.id.firstPopupButtonCancel);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        createButton = findViewById(R.id.firstPopupButtonCreate);
-        passwordCheck();
     }
 
     public void passwordCheck(){
