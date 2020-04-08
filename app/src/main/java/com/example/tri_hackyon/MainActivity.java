@@ -202,11 +202,8 @@ public class MainActivity extends AppCompatActivity {
                     buttonToPassword.setEnabled(false);
                     deleteButton.setEnabled(false);
                     resetList();
-                    try {
-                        parseDBU();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    parseDBU();
+                    checkListEmpty();
                 }
                 if (z!=0){
                     if(cqbx.isChecked()&&!auth){
@@ -252,7 +249,6 @@ public class MainActivity extends AppCompatActivity {
         ucol.setText("Username:\n");
         pcol.setText("Password:\n");
         dcol.setText("Domain:\n");
-        checkListEmpty();
     }
 
     //parses the unencrypted SQL database
