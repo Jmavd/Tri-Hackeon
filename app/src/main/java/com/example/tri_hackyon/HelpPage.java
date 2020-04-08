@@ -23,6 +23,7 @@ public class HelpPage extends AppCompatActivity {
         setListener();
     }
 
+    //sets the exit button's listener
     private void setListener(){
         back = findViewById(R.id.helpGoBack);
         back.setOnClickListener(new View.OnClickListener() {
@@ -33,6 +34,7 @@ public class HelpPage extends AppCompatActivity {
     });
     }
 
+    //sets the var to determine activity
     private void setA(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
@@ -40,6 +42,7 @@ public class HelpPage extends AppCompatActivity {
         edit.apply();
     }
 
+    //exits, passing pass to main
     private void exit(){
         Intent toMain = new Intent(HelpPage.this, MainActivity.class);
         toMain.putExtra(MESSAGE_HELP, password);

@@ -18,6 +18,7 @@ import javax.crypto.spec.SecretKeySpec;
 class CryptoHelper {
     private byte[] keyValue;
 
+    //encrypts string
     String encrypt(String plaintext, String password) throws Exception {
         keyValue = digestByte(password);
         byte[] rawKey = getRawKey();
@@ -28,6 +29,7 @@ class CryptoHelper {
         return toHex(encrypted);
     }
 
+    //decrypts string
     String decrypt(String ciphertext, String password) throws Exception {
         keyValue = digestByte(password);
         byte[] enc = toByte(ciphertext);
@@ -39,12 +41,14 @@ class CryptoHelper {
         return plaintext;
     }
 
-    private byte[] getRawKey() throws Exception {
+    //gets the key in a byte array
+    private byte[] getRawKey() {
         SecretKey key = new SecretKeySpec(keyValue, "AES");
         byte[] raw = key.getEncoded();
         return raw;
     }
 
+    //converts a hex string to bytes
     private byte[] toByte(String hexString) {
         int len = hexString.length() / 2;
         byte[] result = new byte[len];
@@ -54,6 +58,7 @@ class CryptoHelper {
         return result;
     }
 
+    //converts bytes to a hex string
     private String toHex(byte[] buf) {
         if (buf == null)
             return "";
@@ -64,11 +69,13 @@ class CryptoHelper {
         return result.toString();
     }
 
+    //appends onto a hexstring
     private void appendHex(StringBuffer sb, byte b) {
         String HEX = "0123456789ABCDEF";
         sb.append(HEX.charAt((b >> 4) & 0x0f)).append(HEX.charAt(b & 0x0f));
     }
 
+    //converts sting into a byte digest
     private byte[] digestByte(String plaintext){
         byte[] rawPlain;
         MessageDigest md;
@@ -89,6 +96,7 @@ class CryptoHelper {
         return rawPlain;
     }
 
+    //converts sting into a string digest (it hashes it)
     String digestString(String plaintext){
         byte[] rawPlain;
         MessageDigest md;

@@ -38,13 +38,13 @@
         android:id="@+id/oldPassBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="188dp"
-        android:layout_marginLeft="188dp"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/newPassBox1"
-        app:layout_constraintStart_toStartOf="parent"
-        android:importantForAutofill="no" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.949"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/newPassBox1"
@@ -64,22 +64,20 @@
         android:id="@+id/newPassBox2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="188dp"
-        android:layout_marginLeft="188dp"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.949"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newPassBox1"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/newPassBox1" />
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="94dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="18dp"
+        android:layout_width="110dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
         android:gravity="center"
         android:text="@string/old_password"
         app:layout_constraintBottom_toBottomOf="@+id/oldPassBox"
@@ -89,13 +87,17 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="106dp"
-        android:layout_height="32dp"
+        android:layout_width="110dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="13dp"
         android:gravity="center"
         android:text="@string/new_password"
         app:layout_constraintBottom_toBottomOf="@+id/newPassBox1"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toTopOf="@+id/newPassBox1" />
+        app:layout_constraintTop_toBottomOf="@+id/oldPassBox"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView5"
@@ -104,9 +106,10 @@
         android:gravity="center"
         android:text="@string/confirm_new_password"
         app:layout_constraintBottom_toBottomOf="@+id/newPassBox2"
+        app:layout_constraintEnd_toEndOf="@+id/textView4"
+        app:layout_constraintHorizontal_bias="0.368"
         app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="@+id/newPassBox2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/newPassBox1" />
 
     <Button
         android:id="@+id/changeButton"

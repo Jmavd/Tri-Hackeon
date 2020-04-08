@@ -27,7 +27,6 @@ public class SQLHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_NAME + " (ID INTEGER PRIMARY KEY,USERNAME TEXT,PASSWORD TEXT,DOMAIN TEXT)");
         db.execSQL("create table " + TABLE2_NAME + " (ID INTEGER PRIMARY KEY,USERNAME TEXT,PASSWORD TEXT,DOMAIN TEXT)");
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
@@ -65,6 +64,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         return db.rawQuery("select * from "+TABLE2_NAME,null);
     }
 
+    //deletes data from the DB
     void deleteData(int ID, boolean encrypted){
         SQLiteDatabase db = this.getWritableDatabase();
         if (encrypted) {
@@ -75,6 +75,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         }
     }
 
+    //empties the encrypted DB (for changing passwords)
     void emptyDB(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM "+TABLE2_NAME);

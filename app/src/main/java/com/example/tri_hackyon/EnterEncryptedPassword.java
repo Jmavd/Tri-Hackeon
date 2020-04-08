@@ -28,6 +28,7 @@ public class EnterEncryptedPassword extends AppCompatActivity {
         enterPassword();
     }
 
+    //for determining activity
     private void setA(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
@@ -35,6 +36,7 @@ public class EnterEncryptedPassword extends AppCompatActivity {
         edit.apply();
     }
 
+    //sets listeners and grabs hash of textbox string
     private void enterPassword(){
         Button cancelButton = findViewById(R.id.popupButtonCancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -51,27 +53,26 @@ public class EnterEncryptedPassword extends AppCompatActivity {
             public void onClick(View v) {
                 crypt = new CryptoHelper();
                 compStoredPassword = crypt.digestString(crypt.digestString(enteredPassword.getText().toString()+"Immasaltyboi"));//compares and salts the password
-                SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
-                SharedPreferences.Editor edit = sharedPreferences.edit();
-                edit.putInt("inta", 4);
-                edit.apply();
                 test();
             }
         });
 
     }
 
+    //gets hash of stored password
     private void grabStoredPassword(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         tempStoredPassword = sharedPreferences.getString("password", "");
     }
 
+    //exits, passing pass to main
     public void exit(){
         Intent toMain = new Intent(EnterEncryptedPassword.this, MainActivity.class);
         toMain.putExtra(EXTRA_MESSAGE, enteredPassword.getText().toString());
         startActivity(toMain);
     }
 
+    //checks if the password is valid
     private void test(){
         if (compStoredPassword.equals(tempStoredPassword)) {
             exit();

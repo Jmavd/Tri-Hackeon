@@ -54,6 +54,7 @@ public class SendPassword extends IOIOActivity {
         setListeners();
     }
 
+    //sets the various onclicks
     private void setListeners(){
         sendBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,14 +68,12 @@ public class SendPassword extends IOIOActivity {
             @Override
             public void onClick(View v) {
                 getInput();
-                pressed = true;
-                Intent toMain = new Intent(SendPassword.this, MainActivity.class);
-                toMain.putExtra(MESSAGE_SEND, password);
-                startActivity(toMain);
+
             }
         });
     }
 
+    //sets the variable to determine activity intent for main
     private void setA(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
@@ -82,6 +81,7 @@ public class SendPassword extends IOIOActivity {
         edit.apply();
     }
 
+    //gets the size the array should be
     public int getArrSize(){
         myDb = new SQLHelper(this);
         Cursor unc = myDb.getUData();
@@ -89,6 +89,7 @@ public class SendPassword extends IOIOActivity {
         return (unc.getCount()+enc.getCount());
     }
 
+    //parse SQL DB and update list
     public void parseDBU() {
         myDb = new SQLHelper(this); //instance of sqlHelper
         Cursor res = myDb.getUData(); //instance of SQL's cursor
@@ -109,14 +110,13 @@ public class SendPassword extends IOIOActivity {
                 parsedArray[3] [index] = domain;
                 user = (user+"\n");
                 domain = (domain+"\n");
-                String indStr = (index)+"\n";
+                String indStr = (index+1)+"\n";
                 updateList(indStr, user, domain);
                 index++;
             }
             lastUnc = index;
         }
     }
-
     public void parseDBE(String key) throws Exception {
         CryptoHelper crypto = new CryptoHelper();
         SQLHelper thisDB = new SQLHelper(this); //instance of sqlHelper
@@ -138,13 +138,12 @@ public class SendPassword extends IOIOActivity {
                 parsedArray[3][index] = domain;
                 user = (user + "\n");
                 domain = (domain + "\n");
-                String indStr = (index+"\n");
+                String indStr = (index+1)+"\n";
                 updateList(indStr, user, domain);
                 index++;
             }
         }
     }
-    
     public void updateList(String i, String u, String d){ //actually updates the password list
         TextView icol = findViewById(R.id.sendIDCol);
         TextView ucol = findViewById(R.id.sendUserCol);
@@ -153,7 +152,6 @@ public class SendPassword extends IOIOActivity {
         ucol.append(u);
         dcol.append(d);
     }
-
     public void checkListEmpty(){ //checks if the list is empty
         TextView colChk = findViewById(R.id.sendIDCol);
         if((colChk.getText().toString()).equals("ID:\n")){
@@ -161,15 +159,18 @@ public class SendPassword extends IOIOActivity {
         }
     }
 
+    //the code that controls the IOIO-OTG
     class Looper extends BaseIOIOLooper { //This is the code that runs on the IOIO
+        //runs once when connected
         @Override
         protected void setup() throws ConnectionLostException { //runs when IOIO is connected
-            showVersions(ioio_, "Connected!");
+            toast("Connected!");
             uart = ioio_.openUart(10,3,9600, Uart.Parity.NONE, Uart.StopBits.ONE);
             out = uart.getOutputStream();
             enableUi(true);
         }
 
+        //runs repeatedly while connected
         @Override
         public void loop() throws InterruptedException { //runs repeatedly after setup
             if(pressed) {
@@ -183,6 +184,7 @@ public class SendPassword extends IOIOActivity {
             Thread.sleep(100);
         }
 
+        //runs when disconnected
         @Override
         public void disconnected() {
             try {
@@ -192,23 +194,36 @@ public class SendPassword extends IOIOActivity {
             }
             uart.close();
             enableUi(false);
-            toast("IOIO disconnected");
 
         }
-
+        //runs if IOIO has wrong firmware
         @Override
         public void incompatible() {
-            showVersions(ioio_, "Incompatible firmware version!");
+            toast("Incompatible firmware version!");
         }
 }
 
+    //gets the input for the password to send
     private void getInput(){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 int toSend;
-                toSend = Integer.parseInt(sendBox.getText().toString());
-                stringToSend = parsedArray[1][toSend];
+                try {
+                    toSend = Integer.parseInt(sendBox.getText().toString());
+                } catch (NumberFormatException e){
+                    toSend = -1;
+                }
+
+                if((toSend<=parsedArray[1].length)&&(toSend>0)){
+                    stringToSend = parsedArray[1][toSend - 1];
+                    pressed = true;
+                    Intent toMain = new Intent(SendPassword.this, MainActivity.class);
+                    toMain.putExtra(MESSAGE_SEND, password);
+                    startActivity(toMain);
+                }
+                else
+                    Toast.makeText(SendPassword.this, "Invalid ID", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -218,19 +233,7 @@ public class SendPassword extends IOIOActivity {
         return new Looper();
     }
 
-    private void showVersions(IOIO ioio, String title) {
-        toast(String.format("%s\n" +
-                        "IOIOLib: %s\n" +
-                        "Application firmware: %s\n" +
-                        "Bootloader firmware: %s\n" +
-                        "Hardware: %s",
-                title,
-                ioio.getImplVersion(IOIO.VersionType.IOIOLIB_VER),
-                ioio.getImplVersion(IOIO.VersionType.APP_FIRMWARE_VER),
-                ioio.getImplVersion(IOIO.VersionType.BOOTLOADER_VER),
-                ioio.getImplVersion(IOIO.VersionType.HARDWARE_VER)));
-    }
-
+    //sends a toast on the UI thread
     private void toast(final String message) {
         final Context context = this;
         runOnUiThread(new Runnable() {
@@ -243,6 +246,7 @@ public class SendPassword extends IOIOActivity {
 
     private int numConnected_ = 0;
 
+    //used to enable/disable button
     private void enableUi(final boolean enable) {
         // This is slightly trickier than expected to support a multi-IOIO use-case.
 

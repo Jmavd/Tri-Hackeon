@@ -15,27 +15,21 @@ public class CreateEncryptedPassword extends AppCompatActivity {
     public String sentText;
     public String ultiText;
     private Button createButton;
-    private String storedPassword;
     private String checkPswdString, checkConfirmString;
     private int y;
     private int h = 0;
-
-    //public static final String SHARED_PREFS = "sharedPrefs";
-    //public static final String TEXT = "text";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_encrypted_password);
-        loadData();
         firstCreatePassword = findViewById(R.id.firstPopupCreatePassword);
         firstConfirmPassword = findViewById(R.id.firstPopupConfirmPassword);
-        loadData();
-        updateData();
         createButton = findViewById(R.id.firstPopupButtonCreate);
         passwordCheck();
     }
 
+    //determines if password was created
     private void applyH(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor editH = sharedPreferences.edit();
@@ -43,6 +37,7 @@ public class CreateEncryptedPassword extends AppCompatActivity {
         editH.apply();
     }
 
+    //compares two password boxes
     public void passwordCheck(){
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,11 +65,13 @@ public class CreateEncryptedPassword extends AppCompatActivity {
         });
     }
 
+    //grabs a variable used for determining password creation
     private void grabVariable(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         y = sharedPreferences.getInt("inti", 0);
     }
 
+    //sets a variable used for determining password creation
     private void applyVariable(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor editor2 = sharedPreferences.edit();
@@ -84,6 +81,7 @@ public class CreateEncryptedPassword extends AppCompatActivity {
         editor2.apply();
     }
 
+    //hashes the password
     public void encryptData() {
         crypt = new CryptoHelper();
         sentText = firstCreatePassword.getText().toString();
@@ -93,15 +91,6 @@ public class CreateEncryptedPassword extends AppCompatActivity {
         editor.putString("password", ultiText);
         editor.apply();
         Toast.makeText(this, "Password Created!", Toast.LENGTH_SHORT).show();
-    }
-
-    public void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
-        storedPassword = sharedPreferences.getString("password", ""); // "" at the end sets the default value to nothing
-    }
-
-    public void updateData(){
-        firstCreatePassword.setText(storedPassword);
     }
 
 }

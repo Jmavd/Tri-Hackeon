@@ -38,13 +38,7 @@ public class DeletePassword extends AppCompatActivity {
         setButtons();
     }
 
-    private void checkListEmpty(){ //checks if the list is empty
-        TextView colChk = findViewById(R.id.idDelCol);
-        if((colChk.getText().toString()).equals("ID:\n")){
-            colChk.append("Nothing Found");
-        }
-    }
-
+    //gets what size the array should be
     private int getArrSize(){
         myDb = new SQLHelper(this);
         Cursor unc = myDb.getUData();
@@ -52,6 +46,7 @@ public class DeletePassword extends AppCompatActivity {
         return (unc.getCount()+enc.getCount());
     }
 
+    //used for determining sent activity
     private void setA(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
@@ -59,6 +54,7 @@ public class DeletePassword extends AppCompatActivity {
         edit.apply();
     }
 
+    //sets listeners
     public void setButtons(){
         Button delBack = findViewById(R.id.delBack);
         Button deleteButton = findViewById(R.id.delDelete);
@@ -77,6 +73,7 @@ public class DeletePassword extends AppCompatActivity {
 
     }
 
+    //deletes specified ID
     private void deleteID() {
         int entryNum;
         myDb = new SQLHelper(this);
@@ -99,12 +96,14 @@ public class DeletePassword extends AppCompatActivity {
         exit();
     }
 
+    //exits, passing pass to main
     private void exit(){
         Intent toMain = new Intent(DeletePassword.this, MainActivity.class);
         toMain.putExtra(MESSAGE_DELETE, password);
         startActivity(toMain);//}
     }
 
+    //manage onscreen lists and the modified ID system
     private void parseDBU() {
         myDb = new SQLHelper(this); //instance of sqlHelper
         Cursor res = myDb.getUData(); //instance of SQL's cursor
@@ -127,7 +126,6 @@ public class DeletePassword extends AppCompatActivity {
             lastUnc = index;
         }
     }
-
     private void parseDBE(String key) throws Exception {
         CryptoHelper crypto = new CryptoHelper();
         SQLHelper thisDB = new SQLHelper(this); //instance of sqlHelper
@@ -150,7 +148,6 @@ public class DeletePassword extends AppCompatActivity {
             }
         }
     }
-
     public void updateList(String i, String u, String d) { //actually updates the homescreen list
         TextView icol = findViewById(R.id.idDelCol);
         TextView ucol = findViewById(R.id.userDelCol);
@@ -158,6 +155,12 @@ public class DeletePassword extends AppCompatActivity {
         icol.append(i);
         ucol.append(u);
         dcol.append(d);
+    }
+    private void checkListEmpty(){ //checks if the list is empty
+        TextView colChk = findViewById(R.id.idDelCol);
+        if((colChk.getText().toString()).equals("ID:\n")){
+            colChk.append("Nothing Found");
+        }
     }
 }
 

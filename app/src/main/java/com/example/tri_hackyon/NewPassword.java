@@ -37,8 +37,7 @@ public class NewPassword extends AppCompatActivity {
         backButton();
     }
 
-    //adds data in text fields to the SQL DB on click of the button
-
+    //sets the vars and onclick listeners
     private void setVars(){
         Intent intent = getIntent();
         password = intent.getStringExtra(MainActivity.MESSAGE_MAIN);
@@ -58,6 +57,7 @@ public class NewPassword extends AppCompatActivity {
 
     }
 
+    //adds the data to the DB
     private void AddData() {
         btnAdd.setOnClickListener(
                 new View.OnClickListener() {
@@ -80,6 +80,7 @@ public class NewPassword extends AppCompatActivity {
         );
     }
 
+    //used for determining activity
     private void setA(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
@@ -87,12 +88,14 @@ public class NewPassword extends AppCompatActivity {
         edit.apply();
     }
 
+    //exits, passing pass to main
     private void exit(){
         Intent toMain = new Intent(NewPassword.this, MainActivity.class);
         toMain.putExtra(MESSAGE_NEW, password);
         startActivity(toMain);//}
     }
 
+    //returns a cryptographically secure random number
     public String random() {
         Random generator = new Random();
         StringBuilder randomStringBuilder = new StringBuilder();
@@ -105,6 +108,7 @@ public class NewPassword extends AppCompatActivity {
         return randomStringBuilder.toString();
     }
 
+    //sets listeners for backbutton
     private void backButton() {
         Button button = findViewById(R.id.newPwdBack);
         button.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +119,7 @@ public class NewPassword extends AppCompatActivity {
         });
     }
 
+    //adds unencrypted to DB
     private void addUnencrypted() {
         boolean isInserted = myDb.insertData(editSite.getText().toString(), //checks text boxes and passes it to SQLHelper's data inserter
                 editUser.getText().toString(),
@@ -126,6 +131,7 @@ public class NewPassword extends AppCompatActivity {
 
     }
 
+    //adds encrypted to DB
     private void addEncrypted() throws Exception {
         CryptoHelper crypto = new CryptoHelper();
         String key = password;

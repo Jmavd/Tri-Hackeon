@@ -28,9 +28,9 @@ public class Settings extends AppCompatActivity {
         setA();
         enterButton = findViewById(R.id.changeButton);
         setListeners();
-
     }
 
+    //sets listeners
     private void setListeners(){
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +41,7 @@ public class Settings extends AppCompatActivity {
         );
     }
 
+    //the method for changing password
     private void ChangePassword(){
         crypto = new CryptoHelper();
         oldPassBox = findViewById(R.id.oldPassBox);
@@ -62,7 +63,7 @@ public class Settings extends AppCompatActivity {
         Toast.makeText(this, "Invalid Old Password", Toast.LENGTH_SHORT).show();
     }
 
-
+    //decrypts the SQL db and reencrypts it with a new key
     private boolean rebaseDB() throws Exception{
         SQLHelper myDb = new SQLHelper(this); //instance of sqlHelper
         Cursor res = myDb.getEData(); //instance of SQL's cursor
@@ -91,6 +92,7 @@ public class Settings extends AppCompatActivity {
         return false;
     }
 
+    //updates the stored hash
     private void updateHash(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
@@ -99,12 +101,14 @@ public class Settings extends AppCompatActivity {
         edit.apply();
     }
 
+    //checks if the hash matches with the stored hash
     private boolean verifyOld(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         String oldPass = crypto.digestString(crypto.digestString(oldPassBox.getText().toString()+"Immasaltyboi"));
         return (oldPass.equals(sharedPreferences.getString("password", "")));
     }
 
+    //sets the variable used for determining  prior activity
     private void setA(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
@@ -112,6 +116,7 @@ public class Settings extends AppCompatActivity {
         edit.apply();
     }
 
+    //exits, passing new pass to main
     private void exit(){
         Intent toMain = new Intent(Settings.this, MainActivity.class);
         toMain.putExtra(MESSAGE_SETTINGS, password);

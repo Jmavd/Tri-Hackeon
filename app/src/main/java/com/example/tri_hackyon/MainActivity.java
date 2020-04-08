@@ -28,27 +28,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        loadA(); //loads the variables for keeping track of intent
+        loadA();
         grabH();
         if (h == 0)
             configureCreateEncryptedPassword();
-        //b=0;
-        //applyA(); //TEST CODE - KEEP
         Intent intent = getIntent();
-        grabIntent(intent); //uses the A/B values to load the correct extra data from intents
-        loadData(); //loads the hashed passwords
-        cqbx = findViewById(R.id.checkBox); //doesn't have a good home
-        authActivities(); //Checks if a valid password has been supplied from another method, parses SQL
-        checkListEmpty(); //checks if there is data loaded
-        loadVariable(); //loads values for checking if creating or entering password
+        grabIntent(intent);
+        loadData();
+        cqbx = findViewById(R.id.checkBox);
+        authActivities();
+        checkListEmpty();
+        loadVariable();
         configureButtons();
     }
 
+    //checks if user has created a password
     private void grabH(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         h = sharedPreferences.getInt("inth", 0);
     }
 
+    //authenticates user and runs various tasks
     private void authActivities(){
         CryptoHelper crypto = new CryptoHelper();
         try {
@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //checks if there are any entries listed in the column
     private void checkListEmpty(){ //checks if the list is empty
         TextView colChk = findViewById(R.id.usercol);
         if((colChk.getText().toString()).equals("Username:\n")){
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //grabs the intent from the prior activity
     private void grabIntent(Intent intent){
         if (b==4){
             password = intent.getStringExtra(EnterEncryptedPassword.EXTRA_MESSAGE);
@@ -118,11 +120,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //gets the variable for determining prior activity
     private void loadA(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         b = sharedPreferences.getInt("inta", 0);
     }
 
+    //configures clicks
     private void configureButtons(){
         Button buttonToPassword = findViewById(R.id.buttonToPassword);
         Button deleteButton = findViewById(R.id.buttonToDelete);
@@ -218,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //sets the variable for determining prior activity
     private void applyA(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor editA = sharedPreferences.edit();
@@ -225,14 +230,17 @@ public class MainActivity extends AppCompatActivity {
         editA.apply();
     }
 
+    //runs the method for creating app password
     private void configureCreateEncryptedPassword(){
         startActivity(new Intent(MainActivity.this, CreateEncryptedPassword.class));
     }
 
+    //runs the method for entering app password
     private void configureEnterEncryptedPassword(){
         startActivity(new Intent(MainActivity.this, EnterEncryptedPassword.class));
     }
 
+    //when the user unchecks the box
     public void resetList(){
         TextView ucol = findViewById(R.id.usercol);
         TextView pcol = findViewById(R.id.passcol);
@@ -242,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
         dcol.setText("Domain:\n");
     }
 
+    //parses the unencrypted SQL database
     public void parseDBU() {
         myDb = new SQLHelper(this); //instance of sqlHelper
         Cursor res = myDb.getUData(); //instance of SQL's cursor
@@ -261,6 +270,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //parses the encrypted SQL database
     public void parseDBE(String key) throws Exception {
         CryptoHelper crypto = new CryptoHelper();
         myDb = new SQLHelper(this); //instance of sqlHelper
@@ -281,6 +291,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //updates the lists on the homescreen
     public void updateList(String u, String p, String d){ //actually updates the homescreen list
         TextView ucol = findViewById(R.id.usercol);
         TextView pcol = findViewById(R.id.passcol);
@@ -291,11 +302,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //loads the hashed password
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         storedPswd = sharedPreferences.getString("password", "");
     }
 
+    //stores a variable used for checking if a password was created
     public void storeVariable(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -305,6 +318,7 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    //loads a variable for checking if a password was created
     public void loadVariable(){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFS", MODE_PRIVATE);
         z = sharedPreferences.getInt("inti", 0);
